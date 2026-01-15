@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Marta Pace | Your Ultimate One Piece Journey</title>
+    <meta name="description"
+        content="Browse the ultimate fan-edited version of the One Piece anime with improved pacing.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="dark-theme">
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header>
+        <nav class="glass-nav">
+            <div class="logo">
+                <span class="logo-one">ONE</span> <span class="logo-marta">MARTA</span> <span
+                    class="logo-pace">PACE</span>
+            </div>
+            <div class="nav-links">
+                <a href="#arcs" class="nav-link">Arcs</a>
+                <a href="https://onepace.net/watch" target="_blank" class="nav-link discord-link">Official Site</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="progress-header glass-card">
+            <div class="progress-info">
+                <div class="journey-status">
+                    <span id="arcs-completed">0</span> / <span id="total-arcs">0</span> Arcs Completed
+                </div>
+                <div class="time-saved-total">
+                    Total Time Saved: <span id="total-savings-val">0</span> minutes
+                </div>
+                <button id="reset-journey" class="btn btn-outline btn-small">Reset Progress</button>
+                <button id="export-progress" class="btn btn-outline btn-small">Backup</button>
+                <button id="import-trigger" class="btn btn-outline btn-small">Restore</button>
+                <input type="file" id="import-progress" hidden accept=".json">
+            </div>
+            <div class="progress-bar-container">
+                <div id="journey-progress" class="progress-fill"></div>
+            </div>
+        </section>
+
+        <section class="hero">
+            <h1 class="hero-title animate-pop-in">Your Journey Through <span class="highlight">One Piece</span></h1>
+            <p class="hero-subtitle animate-fade-in">Find your current arc and track your progress. Manga-accurate
+                pacing, Zero filler.</p>
+
+            <div class="search-container">
+                <input type="text" id="arc-search" placeholder="Look up an arc or episode..." aria-label="Search Arcs">
+                <span class="search-icon">🔍</span>
+            </div>
+        </section>
+
+        <section id="timeline-container" class="timeline-section">
+            <div class="timeline-group">
+                <h2 class="group-title">Upcoming Journey</h2>
+                <div id="upcoming-arcs" class="timeline-list">
+                    <!-- Upcoming arcs go here -->
+                </div>
+            </div>
+
+            <div class="timeline-group completed-group">
+                <h2 class="group-title">Watched</h2>
+                <div id="completed-arcs" class="timeline-list">
+                    <!-- Completed arcs go here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Detailed Modal -->
+    <div id="arc-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card">
+            <button class="close-modal">&times;</button>
+            <div id="modal-body">
+                <!-- Data injected here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 One Pace Fan Project. This is a non-profit fan-made application.</p>
+    </footer>
+
+    <template id="arc-card-template">
+        <div class="timeline-item glass-card animate-fade-up">
+            <div class="timeline-marker"></div>
+            <div class="arc-content">
+                <div class="arc-header">
+                    <div class="arc-left">
+                        <span class="arc-number"></span>
+                        <h3 class="arc-name"></h3>
+                    </div>
+                    <div class="arc-badge"></div>
+                </div>
+
+                <div class="arc-meta">
+                    <span class="meta-item episodes"></span>
+                    <span class="meta-item savings"></span>
+                </div>
+
+                <div class="arc-progress-stats">
+                    <div class="arc-progress-bar-container">
+                        <div class="arc-progress-fill"></div>
+                    </div>
+                    <span class="arc-count-text">0 / 0 Episodes Finished</span>
+                </div>
+
+                <div class="arc-actions">
+                    <button class="btn btn-outline view-details">View Episodes</button>
+                    <button class="btn btn-primary toggle-watched">Mark as Finished</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
