@@ -20,7 +20,18 @@ Head to **[Releases](https://github.com/Mazalucas/YourOnePace/releases)** and gr
 | **macOS (zip)** | `Your One Pace-x.y.z-mac.zip` | Packed `.app` if you prefer a zip. |
 | **Any browser** | `your-one-pace-web-x.y.z.zip` | Static site: unzip and open `index.html`, or serve over HTTP for full PWA behavior. |
 
-**macOS tip:** If the app is “from an unidentified developer,” that’s normal for unsigned builds. Use **System Settings → Privacy & Security**, or right-click the app → **Open**, to allow it once.
+**macOS (unsigned builds):** If you see **“Your One Pace is damaged and can’t be opened”** after downloading from the browser, the app is usually fine—Gatekeeper is blocking it. Do this:
+
+1. Drag **Your One Pace** from the DMG into **Applications**.
+2. Open **Terminal** and run (copy the whole line):
+
+   ```bash
+   xattr -cr "/Applications/Your One Pace.app" && open "/Applications/Your One Pace.app"
+   ```
+
+   That clears the download quarantine and launches the app.
+
+You can also try **right-click** the app → **Open** → **Open** the first time, or **System Settings → Privacy & Security** and allow the app when macOS offers the button.
 
 ---
 

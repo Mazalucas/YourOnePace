@@ -25,9 +25,22 @@
 | `Your One Pace-x.y.z[-arm64]-mac.zip` | macOS | Packed `.app` zip. |
 | `your-one-pace-web-x.y.z.zip` | Any | Static files only; open `index.html` or serve over HTTP for PWA features. |
 
-### macOS code signing
+### macOS code signing and “damaged” message
 
-Unsigned builds trigger **Gatekeeper** warnings. Users can still open the app via **System Settings → Privacy & Security** or right-click → Open. For distribution without warnings you need an **Apple Developer** account, signing, and notarization (not automated in this repo).
+These builds are **not** signed or notarized with Apple. After downloading with Chrome/Safari, macOS adds a **quarantine** flag. Gatekeeper may then say the app is **“damaged” and can’t be opened**—that wording is misleading; the download is usually intact.
+
+**Reliable fix (after copying the app to Applications):**
+
+```bash
+xattr -cr "/Applications/Your One Pace.app"
+open "/Applications/Your One Pace.app"
+```
+
+`xattr -cr` clears extended attributes (including quarantine) on the `.app` bundle.
+
+**Other things to try:** right-click the app → **Open** → **Open**; or **System Settings → Privacy & Security** → look for a message about the blocked app and click **Open Anyway**.
+
+To ship builds that open without these steps, you need an **Apple Developer** account, **code signing**, and **notarization** (not set up in this repo).
 
 ## Local builds
 
