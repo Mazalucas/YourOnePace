@@ -1,4 +1,4 @@
-# Resources: One Marta Pace
+# Resources: Your One Pace
 
 ## Primary Information
 - **Official One Pace Site**: [onepace.net](https://onepace.net/)

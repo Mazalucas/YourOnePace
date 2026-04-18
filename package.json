@@ -1,0 +1,67 @@
+{
+  "name": "your-one-pace",
+  "productName": "Your One Pace",
+  "version": "1.0.0",
+  "description": "Track your journey through the One Pace fan edit of One Piece",
+  "main": "electron/main.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "dist:web": "node scripts/zip-web.js"
+  },
+  "build": {
+    "appId": "com.youronepace.tracker",
+    "productName": "Your One Pace",
+    "copyright": "Copyright © contributors",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*.js",
+      "index.html",
+      "index.css",
+      "app.js",
+      "data.js",
+      "manifest.json",
+      "sw.js",
+      "icons/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "build/source-icon.png"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        "zip"
+      ],
+      "icon": "build/source-icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/source-icon.png",
+      "uninstallerIcon": "build/source-icon.png",
+      "installerHeaderIcon": "build/source-icon.png"
+    },
+    "compression": "maximum"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

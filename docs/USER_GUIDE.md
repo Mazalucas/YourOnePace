@@ -1,7 +1,7 @@
-# User Guide: One Marta Pace
+# User Guide: Your One Pace
 
 ## Getting Started
-To open the application, simply find the **`Launch One Marta Pace.bat`** file in your project folder and double-click it. It will open in your default web browser.
+To open the application, simply find the **`Launch Your One Pace.bat`** file in your project folder and double-click it. It will open in your default web browser.
 
 ## Tracking Your Journey
 1. **The Timeline**: The main screen shows all One Piece arcs. Green cards are "Completed", and the glowy card is your **Current Arc**.
@@ -13,7 +13,7 @@ To open the application, simply find the **`Launch One Marta Pace.bat`** file in
 
 ## Backup & Restore
 Never lose your progress!
-- **To Save Your Progress**: Click the **"Backup Journey"** button at the top of the page. This will download a file named `one-marta-pace-progress-DATE.json`. Save this file somewhere safe.
+- **To Save Your Progress**: Click the **"Backup"** button at the top of the page. This will download a file named `your-one-pace-progress-DATE.json`. Save this file somewhere safe.
 - **To Restore Your Progress**: If you clear your browser history or move to a new computer, click **"Restore Journey"** and select your latest backup file.
 
 ## Troubleshooting

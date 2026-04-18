@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `one-marta-pace-progress-${new Date().toLocaleDateString()}.json`;
+        a.download = `your-one-pace-progress-${new Date().toLocaleDateString()}.json`;
         a.click();
     };
 

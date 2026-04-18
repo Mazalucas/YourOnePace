@@ -1,0 +1,99 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Sync package.json version with tag
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          npm version "$TAG" --no-git-tag-version --allow-same-version
+
+      - run: npm run build
+
+      - name: Stage desktop assets (no blockmaps)
+        shell: bash
+        run: |
+          mkdir -p upload-desktop
+          for f in release/*; do
+            [ -f "$f" ] || continue
+            case "$f" in
+              *.blockmap) ;;
+              *.exe|*.dmg|*.zip) cp "$f" upload-desktop/ ;;
+            esac
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: upload-desktop/
+
+  package-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Sync package.json version with tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          npm version "$TAG" --no-git-tag-version --allow-same-version
+
+      - run: node scripts/zip-web.js
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-zip
+          path: release/*.zip
+
+  publish:
+    needs: [build-desktop, package-web]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: List release files
+        run: find artifacts -type f -print
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            artifacts/*.exe
+            artifacts/*.dmg
+            artifacts/*mac*.zip
+            artifacts/*win*.zip
+            artifacts/your-one-pace-web-*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

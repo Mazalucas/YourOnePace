@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Marta Pace | Your Ultimate One Piece Journey</title>
+    <title>Your One Pace | Your Ultimate One Piece Journey</title>
     <meta name="description"
         content="Browse the ultimate fan-edited version of the One Piece anime with improved pacing.">
+    <meta name="theme-color" content="#0a0a0f">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/pwa-512.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -25,7 +28,7 @@
     <header>
         <nav class="glass-nav">
             <div class="logo">
-                <span class="logo-one">ONE</span> <span class="logo-marta">MARTA</span> <span
+                <span class="logo-your">YOUR</span> <span class="logo-one">ONE</span> <span
                     class="logo-pace">PACE</span>
             </div>
             <div class="nav-links">
@@ -130,6 +133,11 @@
 
     <script src="data.js"></script>
     <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').catch(() => { });
+        }
+    </script>
 </body>
 
 </html>

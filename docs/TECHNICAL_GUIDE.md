@@ -1,4 +1,4 @@
-# Technical Guide: One Marta Pace
+# Technical Guide: Your One Pace
 
 ## Technology Stack
 - **Structure**: Semantic HTML5.
@@ -16,8 +16,12 @@
 - `index.css`: Design system, tokens, and component styling.
 - `app.js`: Core application logic (parsing, rendering, state management).
 - `data.js`: Extended metadata for episodes (descriptions, direct links).
+- `electron/main.js`: Electron shell for desktop builds (loads `index.html` locally).
+- `manifest.json` / `sw.js`: PWA metadata and service worker for installable web use.
 - `One Pace Episode Guide - Arc Overview.csv`: The source of truth for arc counts and time savings.
-- `Launch One Marta Pace.bat`: Windows launcher for quick access.
+- `Launch Your One Pace.bat`: Windows launcher for quick access.
+
+For desktop installers, GitHub Releases, and optional mobile paths, see [RELEASES.md](RELEASES.md).
 
 ## Core Logic Details
 
@@ -28,7 +32,7 @@ The application uses a robust character-by-character CSV parser in `app.js` to h
 Progress is tracked using `watchedUpToIndex` (for the overall arc timeline) and `episodeProgress` (an object mapping arc names to arrays of watched episode numbers).
 
 ### Persistence
-All state is synced to the browser's `localStorage` every time a click event occurs. The **Backup/Restore** feature uses the `Blob` API to generate a JSON file that Marta can download and save safely.
+All state is synced to the browser's `localStorage` every time a click event occurs. The **Backup/Restore** feature uses the `Blob` API to generate a JSON file that you can download and save safely.
 
 ### Performance
 The app is a lightweight Single Page Application (SPA). All rendering is done on the client side using the `<template>` element for efficient DOM manipulation.
