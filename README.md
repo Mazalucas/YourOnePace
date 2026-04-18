@@ -58,5 +58,5 @@ See [`docs/RELEASES.md`](docs/RELEASES.md) for building installers and [`docs/US
 ---
 
 ## License
-
+@LucasMazalan
 MIT — see `package.json`.
