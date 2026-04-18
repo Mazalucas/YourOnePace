@@ -353,7 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function showDetails(arc) {
-        const details = window.EPISODE_DATA[arc.name] || { links: [] };
+        const episodeData = window.EPISODE_DATA || {};
+        const details = episodeData[arc.name] || { links: [] };
         const watchedList = episodeProgress[arc.name] || [];
 
         const curated = Array.isArray(details.links) ? details.links : [];
