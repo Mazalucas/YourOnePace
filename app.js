@@ -12,6 +12,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalArcsText = document.getElementById('total-arcs');
     const totalSavingsText = document.getElementById('total-savings-val');
     const template = document.getElementById('arc-card-template');
+    const progressHeaderPanel = document.getElementById('progress-header-panel');
+    const progressHeaderSlot = document.getElementById('progress-header-slot');
+
+    let lastScrollY = window.scrollY;
+    let progressScrollHidden = false;
+
+    function progressSlotHeight() {
+        const styles = getComputedStyle(progressHeaderPanel);
+        const mt = parseFloat(styles.marginTop) || 0;
+        const mb = parseFloat(styles.marginBottom) || 0;
+        return progressHeaderPanel.offsetHeight + mt + mb;
+    }
+
+    function updateProgressChrome() {
+        const headerEl = document.querySelector('header');
+        if (headerEl) {
+            const bottom = headerEl.getBoundingClientRect().bottom;
+            document.documentElement.style.setProperty(
+                '--progress-header-top',
+                `${Math.round(bottom + 10)}px`
+            );
+        }
+        if (!progressScrollHidden) {
+            progressHeaderSlot.style.height = `${progressSlotHeight()}px`;
+        }
+    }
+
+    function setProgressScrollHidden(hidden) {
+        if (progressScrollHidden === hidden) return;
+        progressScrollHidden = hidden;
+        progressHeaderPanel.classList.toggle('is-scroll-hidden', hidden);
+        progressHeaderSlot.style.height = hidden ? '0px' : `${progressSlotHeight()}px`;
+    }
+
+    let scrollRaf = 0;
+    function onWindowScroll() {
+        if (scrollRaf) return;
+        scrollRaf = requestAnimationFrame(() => {
+            scrollRaf = 0;
+            const y = window.scrollY;
+            if (y < 32) {
+                setProgressScrollHidden(false);
+            } else if (y > lastScrollY + 8) {
+                setProgressScrollHidden(true);
+            } else if (y < lastScrollY - 8) {
+                setProgressScrollHidden(false);
+            }
+            lastScrollY = y;
+        });
+    }
+
+    window.addEventListener('scroll', onWindowScroll, { passive: true });
+    window.addEventListener('resize', updateProgressChrome);
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(updateProgressChrome).observe(progressHeaderPanel);
+    }
+    updateProgressChrome();
 
     // Modal Elements
     const modal = document.getElementById('arc-modal');
@@ -225,6 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const progressPct = (completedCount / allArcs.length) * 100;
         progressBar.style.width = `${progressPct}%`;
+
+        requestAnimationFrame(() => updateProgressChrome());
     }
 
     function createArcElement(arc, isWatched) {
