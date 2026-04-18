@@ -11,6 +11,7 @@ node_modules/
 
 # Electron / packaging
 release/
+build/icon.ico
 
 # Environment variables
 .env
