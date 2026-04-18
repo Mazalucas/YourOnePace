@@ -1,5 +1,5 @@
 // Bump this when you change precached static assets so clients drop old caches.
-const CACHE_NAME = 'your-one-pace-v2';
+const CACHE_NAME = 'your-one-pace-v4';
 const PRECACHE_URLS = [
   './',
   './index.html',

@@ -347,10 +347,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return item;
     }
 
-    const DEFAULT_STREAM_LINKS = [
-        { type: 'One Pace — official site', url: 'https://onepace.net/watch' },
-        { type: 'NYAA — search One Pace', url: 'https://nyaa.si/?f=0&c=0_0&q=One+Pace' }
-    ];
+    function normalizeArcSearchLabel(name) {
+        return String(name).replace(/\s+/g, ' ').trim();
+    }
+
+    /**
+     * Per-arc torrent/stream discovery (always real tracker / aggregator URLs, not a generic homepage).
+     * Curated links from data.js are prepended when present.
+     */
+    function streamDiscoveryLinksForArc(arcName) {
+        const label = normalizeArcSearchLabel(arcName);
+        const qNyaa = encodeURIComponent(`One Pace ${label}`);
+        const qTosho = encodeURIComponent(`one pace ${label}`);
+        const qTokyo = encodeURIComponent(`One Pace ${label}`);
+        return [
+            { type: 'NYAA — torrents (this arc)', url: `https://nyaa.si/?f=0&c=0_0&q=${qNyaa}` },
+            { type: 'AnimeTosho — mirrors & magnets', url: `https://animetosho.org/search?q=${qTosho}` },
+            { type: 'Tokyo Toshokan — search', url: `https://www.tokyotosho.info/search.php?terms=${qTokyo}&cat=1` }
+        ];
+    }
 
     function showDetails(arc) {
         const episodeData = window.EPISODE_DATA || {};
@@ -358,7 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const watchedList = episodeProgress[arc.name] || [];
 
         const curated = Array.isArray(details.links) ? details.links : [];
-        const linksToRender = curated.length > 0 ? curated : DEFAULT_STREAM_LINKS;
+        const discovery = streamDiscoveryLinksForArc(arc.name);
+        const linksToRender = curated.length > 0 ? curated : discovery;
 
         const linksHtml = `
                 <div class="links-section">
