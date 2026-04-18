@@ -347,25 +347,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return item;
     }
 
+    const DEFAULT_STREAM_LINKS = [
+        { type: 'One Pace — official site', url: 'https://onepace.net/watch' },
+        { type: 'NYAA — search One Pace', url: 'https://nyaa.si/?f=0&c=0_0&q=One+Pace' }
+    ];
+
     function showDetails(arc) {
         const details = window.EPISODE_DATA[arc.name] || { links: [] };
         const watchedList = episodeProgress[arc.name] || [];
 
-        let linksHtml = '';
-        if (details.links.length > 0) {
-            linksHtml = `
+        const curated = Array.isArray(details.links) ? details.links : [];
+        const linksToRender = curated.length > 0 ? curated : DEFAULT_STREAM_LINKS;
+
+        const linksHtml = `
                 <div class="links-section">
                     <h3>Downloads & Streams</h3>
                     <div class="links-flex">
-                        ${details.links.map(link => `
-                            <a href="${link.url}" target="_blank" class="torrent-link">
+                        ${linksToRender.map(link => `
+                            <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="torrent-link">
                                 ${link.type}
                             </a>
                         `).join('')}
                     </div>
                 </div>
             `;
-        }
 
         let episodesHtml = `
             <div class="links-section">
@@ -397,8 +402,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>Pacing Guide:</strong> ${arc.guide}</p>
                 <p>Contains ${arc.episodesCount} Pace episodes, saving <strong>${arc.saved} minutes</strong> (${arc.savedPct}).</p>
             </div>
-            ${episodesHtml}
             ${linksHtml}
+            ${episodesHtml}
         `;
 
         // Add click listeners to episodes
