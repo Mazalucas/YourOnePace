@@ -20,7 +20,7 @@ Apple often blocks **downloaded `.app` bundles** that are not signed and **notar
 
 Bookmark it, or in Safari use **File → Add to Dock**, or in Chrome use **Install app** / **Create shortcut**—all without installers.
 
-> **Repo maintainer:** turn on GitHub Pages once: **Settings → Pages → Build and deployment → Source: GitHub Actions**. After the next push to `main`, that URL goes live.
+> **Maintainer (one time, ~30 seconds):** GitHub blocks automated “enable Pages” from Actions. In the repo go to **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**, and save. Then open **Actions → Deploy GitHub Pages → Re-run failed jobs** (or push any commit to `main`). After that, **`https://mazalucas.github.io/YourOnePace/`** serves the app—no DMG, no Terminal for users.
 
 ### Windows and offline bundles
 
