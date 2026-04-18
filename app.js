@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             linksHtml = `
                 <div class="links-section">
                     <h3>Downloads & Streams</h3>
-                    <div class="links-flex" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="links-flex">
                         ${details.links.map(link => `
                             <a href="${link.url}" target="_blank" class="torrent-link">
                                 ${link.type}

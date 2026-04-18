@@ -18,6 +18,11 @@
     box-sizing: border-box;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
@@ -105,9 +110,18 @@ header {
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4.5vw, 1.8rem);
     font-weight: 800;
     letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
 }
 
 .logo-pace {
@@ -123,11 +137,12 @@ header {
 .nav-link {
     color: var(--text-primary);
     text-decoration: none;
-    margin-left: 2rem;
+    margin-left: 0;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2.8vw, 0.9rem);
     transition: var(--transition-smooth);
     opacity: 0.8;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -190,6 +205,17 @@ header {
     transform: scale(1.02);
 }
 
+@media (max-width: 480px) {
+    #arc-search {
+        font-size: 1rem;
+        padding: 1rem 1.25rem 1rem 3rem;
+    }
+
+    #arc-search:focus {
+        transform: none;
+    }
+}
+
 .search-icon {
     position: absolute;
     left: 1.5rem;
@@ -214,7 +240,7 @@ header {
 }
 
 .section-header h2 {
-    font-size: 2rem;
+    font-size: clamp(1.35rem, 4vw, 2rem);
     font-weight: 700;
 }
 
@@ -260,8 +286,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
 .journey-status {
@@ -270,6 +298,14 @@ header {
 
 .time-saved-total {
     color: var(--text-secondary);
+}
+
+.progress-info .btn-outline {
+    color: var(--text-secondary);
+}
+
+.progress-info .btn-outline:hover {
+    color: var(--text-primary);
 }
 
 .progress-bar-container {
@@ -299,7 +335,7 @@ header {
 }
 
 .group-title {
-    font-size: 1.8rem;
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
     margin-bottom: 2rem;
     padding-left: 1rem;
     border-left: 4px solid var(--accent);
@@ -402,13 +438,90 @@ header {
 }
 
 .arc-name {
-    font-size: 1.6rem;
+    font-size: clamp(1.15rem, 4vw, 1.6rem);
     font-weight: 700;
     margin-bottom: 0;
     background: linear-gradient(180deg, #fff 0%, #a0a0a5 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    word-break: break-word;
+}
+
+.arc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.meta-item {
+    font-weight: 600;
+}
+
+.arc-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.arc-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.35rem 0.75rem;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+}
+
+.badge-wip {
+    color: var(--gold);
+    border-color: rgba(255, 215, 0, 0.35);
+}
+
+.badge-tbr {
+    color: var(--text-secondary);
+}
+
+.badge-completed {
+    color: #4BB543;
+    border-color: rgba(75, 181, 67, 0.4);
+}
+
+.current-arc {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.25), 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.progress-header.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+}
+
+.modal-content .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 16px;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+}
+
+.links-flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 1rem;
 }
 
 /* Arc Progress Tracking */
@@ -696,4 +809,149 @@ footer {
     opacity: 0.5;
     font-size: 0.8rem;
     border-top: 1px solid var(--glass-border);
+}
+
+/* —— Responsive layout —— */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem clamp(1rem, 4vw, 5%);
+    }
+
+    .glass-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border-radius: 24px;
+    }
+
+    .nav-links {
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 3rem clamp(1rem, 4vw, 5%) 2.5rem;
+    }
+
+    .progress-header {
+        margin: 1rem clamp(1rem, 4vw, 5%);
+        padding: 1.25rem 1.25rem;
+        top: 0.75rem;
+    }
+
+    .progress-info {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .progress-info .btn {
+        width: 100%;
+    }
+
+    .timeline-section {
+        padding: 1.5rem clamp(1rem, 4vw, 5%) 4rem;
+    }
+
+    .timeline-list {
+        padding-left: 1.25rem;
+    }
+
+    .timeline-list::after {
+        left: 5px;
+    }
+
+    .timeline-item {
+        padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .timeline-marker {
+        left: -14px;
+        width: 18px;
+        height: 18px;
+        border-width: 3px;
+    }
+
+    .timeline-item:hover {
+        transform: none;
+    }
+
+    .arc-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .arc-actions .btn {
+        width: 100%;
+    }
+
+    .modal-overlay {
+        padding: 1rem;
+        align-items: flex-end;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: none;
+        max-height: 90vh;
+        padding: 1.75rem 1.25rem 2rem;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .close-modal {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .modal-title {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        padding-right: 2.5rem;
+    }
+
+    .modal-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .episode-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 110px), 1fr));
+    }
+
+    footer {
+        padding: 2.5rem 1.25rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blob {
+        width: min(70vw, 320px);
+        height: min(70vw, 320px);
+    }
+
+    .filter-controls {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-radius: 16px;
+    }
+
+    .filter-btn {
+        flex: 1 1 auto;
+        min-width: 0;
+        padding: 0.55rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .torrent-link:hover {
+        transform: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .modal-overlay {
+        padding: 1.5rem;
+    }
 }
