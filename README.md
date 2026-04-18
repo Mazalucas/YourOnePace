@@ -10,28 +10,30 @@
 
 ## Install in one minute
 
-Head to **[Releases](https://github.com/Mazalucas/YourOnePace/releases)** and grab the file that matches how you like to sail:
+### macOS (recommended — no Gatekeeper, no Terminal)
+
+Apple often blocks **downloaded `.app` bundles** that are not signed and **notarized** (including our GitHub builds), which is why you may see **“damaged”** even though the file is fine.
+
+**Easiest path on Mac:** use the hosted web app (same interface; progress stays in your browser):
+
+**[Open Your One Pace (web)](https://mazalucas.github.io/YourOnePace/)**
+
+Bookmark it, or in Safari use **File → Add to Dock**, or in Chrome use **Install app** / **Create shortcut**—all without installers.
+
+> **Repo maintainer:** turn on GitHub Pages once: **Settings → Pages → Build and deployment → Source: GitHub Actions**. After the next push to `main`, that URL goes live.
+
+### Windows and offline bundles
+
+Head to **[Releases](https://github.com/Mazalucas/YourOnePace/releases)** and pick a build:
 
 | You’re on… | Grab this | What it is |
 |------------|-----------|------------|
 | **Windows** | `Your One Pace Setup x.y.z.exe` | Installer—pick a folder, get Start Menu shortcuts. |
 | **Windows (no install)** | `Your One Pace x.y.z-win.zip` | Unzip and run—portable folder. |
-| **macOS** | `Your One Pace-x.y.z.dmg` (or `-arm64` on Apple Silicon) | Drag the app into **Applications**. |
-| **macOS (zip)** | `Your One Pace-x.y.z-mac.zip` | Packed `.app` if you prefer a zip. |
-| **Any browser** | `your-one-pace-web-x.y.z.zip` | Static site: unzip and open `index.html`, or serve over HTTP for full PWA behavior. |
+| **macOS (optional)** | `.dmg` or `-mac.zip` | Native **Electron** shell. Unsigned: macOS may still block it after download—**prefer the web link above** unless you need offline desktop. |
+| **Any browser / offline folder** | `your-one-pace-web-x.y.z.zip` | Unzip and open `index.html`, or serve over HTTP for full PWA behavior. |
 
-**macOS (unsigned builds):** If you see **“Your One Pace is damaged and can’t be opened”** after downloading from the browser, the app is usually fine—Gatekeeper is blocking it. Do this:
-
-1. Drag **Your One Pace** from the DMG into **Applications**.
-2. Open **Terminal** and run (copy the whole line):
-
-   ```bash
-   xattr -cr "/Applications/Your One Pace.app" && open "/Applications/Your One Pace.app"
-   ```
-
-   That clears the download quarantine and launches the app.
-
-You can also try **right-click** the app → **Open** → **Open** the first time, or **System Settings → Privacy & Security** and allow the app when macOS offers the button.
+**macOS + Electron only:** If you insist on the downloaded app and see **“damaged”**, that is Gatekeeper/quarantine on unsigned builds. The reliable fix is a Terminal command—see [`docs/RELEASES.md`](docs/RELEASES.md). A fully click-only experience for a downloaded `.app` requires **Apple Developer** signing + **notarization** (paid program); we do not ship that by default.
 
 ---
 

@@ -25,22 +25,15 @@
 | `Your One Pace-x.y.z[-arm64]-mac.zip` | macOS | Packed `.app` zip. |
 | `your-one-pace-web-x.y.z.zip` | Any | Static files only; open `index.html` or serve over HTTP for PWA features. |
 
-### macOS code signing and “damaged” message
+### macOS: “damaged” message and what we recommend
 
-These builds are **not** signed or notarized with Apple. After downloading with Chrome/Safari, macOS adds a **quarantine** flag. Gatekeeper may then say the app is **“damaged” and can’t be opened**—that wording is misleading; the download is usually intact.
+These builds are **not** signed or **notarized** with Apple. After a **browser download**, macOS often quarantines the `.app` and may say it is **“damaged”**—usually **Gatekeeper**, not a corrupt file.
 
-**Reliable fix (after copying the app to Applications):**
+**End users (no Terminal):** Prefer the **GitHub Pages** deployment of the same UI (`https://<user>.github.io/<repo>/` once Pages is enabled). That loads in the browser and avoids the downloaded `.app` problem entirely.
 
-```bash
-xattr -cr "/Applications/Your One Pace.app"
-open "/Applications/Your One Pace.app"
-```
+**Electron / DMG anyway:** The only fully reliable fix for quarantine on unsigned apps is clearing extended attributes (historically `xattr -cr` in Terminal). **Right-click → Open** or **System Settings → Privacy & Security → Open Anyway** sometimes work but are not consistent for the “damaged” wording.
 
-`xattr -cr` clears extended attributes (including quarantine) on the `.app` bundle.
-
-**Other things to try:** right-click the app → **Open** → **Open**; or **System Settings → Privacy & Security** → look for a message about the blocked app and click **Open Anyway**.
-
-To ship builds that open without these steps, you need an **Apple Developer** account, **code signing**, and **notarization** (not set up in this repo).
+**For maintainers:** A smooth double-click experience for a **downloaded** Mac app requires an **Apple Developer Program** subscription, **Developer ID** code signing, and **notarization** in CI (certificates and secrets). That pipeline is not configured in this repository by default.
 
 ## Local builds
 

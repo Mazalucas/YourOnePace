@@ -5,21 +5,21 @@
 ### Web / Windows (project folder)
 To open from the project folder on Windows, double-click **`Launch Your One Pace.bat`**. It opens the app in your default web browser.
 
-### macOS desktop app (from GitHub Releases)
-If you installed from the **`.dmg`** or **`-mac.zip`** and macOS says the app is **“damaged”** or won’t open, that is usually **Gatekeeper**, not a bad download.
+### macOS (recommended: web app)
 
-1. Put **Your One Pace** in your **Applications** folder (drag from the DMG, or unzip the zip and move the `.app` there).
-2. Open **Terminal** and run:
+On Mac, the **simplest** experience is the hosted site—no installer, no Gatekeeper:
 
-   ```bash
-   xattr -cr "/Applications/Your One Pace.app"
-   ```
+**[https://mazalucas.github.io/YourOnePace/](https://mazalucas.github.io/YourOnePace/)** (requires GitHub Pages to be enabled on the repo; see project README.)
 
-3. Open the app from **Applications** (or run `open "/Applications/Your One Pace.app"`).
+Bookmark the page or add it to the Dock from Safari/Chrome. Your progress is stored in the browser like the desktop wrapper.
 
-First launch: you can also **right-click** the app → **Open** → **Open**, or use **System Settings → Privacy & Security** if macOS shows an **Open Anyway** option.
+### macOS desktop app (optional — from GitHub Releases)
 
-These releases are not Apple-signed; clearing quarantine with `xattr` is the most dependable approach.
+The **`.dmg`** / **`-mac.zip`** build is an unsigned **Electron** app. macOS may say **“damaged”** after a browser download—that is usually **Gatekeeper/quarantine**, not corruption.
+
+**Prefer the web link above** if you want to avoid that friction.
+
+If you still use the `.app`: after moving it to **Applications**, the dependable fix is clearing quarantine in **Terminal** (`xattr -cr` — see **Troubleshooting**). A no-warning downloaded `.app` needs **Apple notarization** (paid Developer account), which this project does not ship by default.
 
 ## Tracking Your Journey
 1. **The Timeline**: The main screen shows all One Piece arcs. Green cards are "Completed", and the glowy card is your **Current Arc**.
