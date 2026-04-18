@@ -854,7 +854,6 @@ footer {
     .progress-header {
         margin: 1rem clamp(1rem, 4vw, 5%);
         padding: 1.25rem 1.25rem;
-        top: 0.75rem;
     }
 
     .progress-info {

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const bottom = headerEl.getBoundingClientRect().bottom;
             document.documentElement.style.setProperty(
                 '--progress-header-top',
-                `${Math.round(bottom + 10)}px`
+                `${Math.round(bottom + 12)}px`
             );
         }
         if (!progressScrollHidden) {
@@ -66,7 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onWindowScroll, { passive: true });
     window.addEventListener('resize', updateProgressChrome);
     if (typeof ResizeObserver !== 'undefined') {
-        new ResizeObserver(updateProgressChrome).observe(progressHeaderPanel);
+        const ro = new ResizeObserver(updateProgressChrome);
+        ro.observe(progressHeaderPanel);
+        const headerForRo = document.querySelector('header');
+        if (headerForRo) ro.observe(headerForRo);
     }
     updateProgressChrome();
 
