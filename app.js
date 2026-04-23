@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let lastScrollY = window.scrollY;
     let progressScrollHidden = false;
+    /** After collapsing the progress slot, the browser may lower scrollY; ignore one "scroll up" beat. */
+    let suppressShowOnScrollUp = false;
+    const SCROLL_DIR_THRESHOLD = 4;
 
     function progressSlotHeight() {
         const styles = getComputedStyle(progressHeaderPanel);
@@ -44,6 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
         progressScrollHidden = hidden;
         progressHeaderPanel.classList.toggle('is-scroll-hidden', hidden);
         progressHeaderSlot.style.height = hidden ? '0px' : `${progressSlotHeight()}px`;
+        if (hidden) {
+            suppressShowOnScrollUp = true;
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    lastScrollY = window.scrollY;
+                    suppressShowOnScrollUp = false;
+                });
+            });
+        }
     }
 
     let scrollRaf = 0;
@@ -54,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const y = window.scrollY;
             if (y < 32) {
                 setProgressScrollHidden(false);
-            } else if (y > lastScrollY + 8) {
+            } else if (y > lastScrollY + SCROLL_DIR_THRESHOLD) {
                 setProgressScrollHidden(true);
-            } else if (y < lastScrollY - 8) {
+            } else if (!suppressShowOnScrollUp && y < lastScrollY - SCROLL_DIR_THRESHOLD) {
                 setProgressScrollHidden(false);
             }
             lastScrollY = y;
