@@ -577,6 +577,10 @@ header {
     margin-top: 0.5rem;
 }
 
+.arc-actions .btn {
+    color: #fff;
+}
+
 .btn {
     padding: 0.8rem 1.5rem;
     border-radius: 14px;
