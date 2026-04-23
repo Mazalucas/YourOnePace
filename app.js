@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         item.querySelector('.view-details').addEventListener('click', () => {
-            showDetails(arc);
+            void showDetails(arc).catch((err) => console.error('Arc details failed', err));
         });
 
         return item;
@@ -367,7 +367,59 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     }
 
-    function showDetails(arc) {
+    const pixeldrainListApiCache = new Map();
+
+    /**
+     * Prefer a 720p Pixeldrain list when the arc has multiple qualities; otherwise first list link.
+     */
+    function getPixeldrainListUrlForChecklist(links) {
+        if (!Array.isArray(links) || links.length === 0) return null;
+        const pd = links.filter(
+            l => l && l.url && /pixeldrain\.net\/l\//i.test(l.url)
+        );
+        if (pd.length === 0) return null;
+        const p720 = pd.find(l => /720p/i.test(l.type));
+        return p720 ? p720.url : pd[0].url;
+    }
+
+    function pixeldrainListIdFromUrl(listUrl) {
+        const m = String(listUrl).match(/pixeldrain\.net\/l\/([A-Za-z0-9]+)/i);
+        return m ? m[1] : null;
+    }
+
+    /**
+     * Pixeldrain’s list viewer uses 0-based indices in the hash (#item=) matching file order. Pace episode 1 → #item=0.
+     */
+    function buildPixeldrainListEpisodeUrl(listUrl, episodeNumber) {
+        const base = String(listUrl).split('#')[0];
+        const idx = Math.max(0, episodeNumber - 1);
+        return `${base}#item=${idx}`;
+    }
+
+    async function fetchPixeldrainListMeta(listId) {
+        if (pixeldrainListApiCache.has(listId)) {
+            return pixeldrainListApiCache.get(listId);
+        }
+        try {
+            const r = await fetch(`https://pixeldrain.net/api/list/${listId}`);
+            if (!r.ok) {
+                pixeldrainListApiCache.set(listId, null);
+                return null;
+            }
+            const j = await r.json();
+            if (!j.success) {
+                pixeldrainListApiCache.set(listId, null);
+                return null;
+            }
+            pixeldrainListApiCache.set(listId, j);
+            return j;
+        } catch (e) {
+            pixeldrainListApiCache.set(listId, null);
+            return null;
+        }
+    }
+
+    async function showDetails(arc) {
         const episodeData = window.EPISODE_DATA || {};
         const details = episodeData[arc.name] || { links: [] };
         const watchedList = episodeProgress[arc.name] || [];
@@ -389,17 +441,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-        let episodesHtml = `
+        const pdListBaseUrl = getPixeldrainListUrlForChecklist(curated);
+        let pdMismatchHtml = '';
+        if (pdListBaseUrl) {
+            const listId = pixeldrainListIdFromUrl(pdListBaseUrl);
+            if (listId) {
+                const meta = await fetchPixeldrainListMeta(listId);
+                if (meta && meta.file_count != null && meta.file_count !== arc.episodesCount) {
+                    pdMismatchHtml = `<p class="ep-pd-warning" role="status">This Pixeldrain list has <strong>${meta.file_count}</strong> file(s), but this arc has <strong>${arc.episodesCount}</strong> episodes. Per-episode links may not line up with each episode number.</p>`;
+                }
+            }
+        }
+
+        const episodesHtml = `
             <div class="links-section">
                 <h3>Episode Checklist</h3>
+                <p class="ep-pd-checklist-hint">“Open” goes to the episode in Pixeldrain, using the 720p list when this arc has one; otherwise the first Pixeldrain link above.</p>
+                ${pdMismatchHtml}
                 <div class="episode-grid">
                     ${Array.from({ length: arc.episodesCount }, (_, i) => {
             const epNo = i + 1;
             const isWatched = watchedList.includes(epNo);
+            const pdUrl = pdListBaseUrl
+                ? buildPixeldrainListEpisodeUrl(pdListBaseUrl, epNo)
+                : '';
+            const openRow = pdListBaseUrl
+                ? `<a class="ep-pixeldrain-link" href="${pdUrl}" target="_blank" rel="noopener noreferrer">Open</a>`
+                : '';
             return `
                             <div class="episode-item ${isWatched ? 'watched' : ''}" data-ep="${epNo}">
+                                <button type="button" class="episode-item-toggle" aria-pressed="${isWatched ? 'true' : 'false'}" aria-label="Mark episode ${epNo} as watched or unwatched">
                                 <div class="ep-checkbox">${isWatched ? '✓' : ''}</div>
                                 <span class="ep-label">Episode ${epNo}</span>
+                                </button>
+                                ${openRow}
                             </div>
                         `;
         }).join('')}
@@ -423,10 +498,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ${episodesHtml}
         `;
 
-        // Add click listeners to episodes
-        modalBody.querySelectorAll('.episode-item').forEach(item => {
-            item.onclick = () => {
-                const epNo = parseInt(item.dataset.ep);
+        const hintEl = modalBody.querySelector('.ep-pd-checklist-hint');
+        if (hintEl) {
+            hintEl.hidden = !pdListBaseUrl;
+        }
+
+        modalBody.querySelectorAll('.episode-item-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.episode-item');
+                const epNo = parseInt(item.dataset.ep, 10);
                 if (!episodeProgress[arc.name]) episodeProgress[arc.name] = [];
 
                 const idx = episodeProgress[arc.name].indexOf(epNo);
@@ -434,16 +514,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     episodeProgress[arc.name].splice(idx, 1);
                     item.classList.remove('watched');
                     item.querySelector('.ep-checkbox').textContent = '';
+                    btn.setAttribute('aria-pressed', 'false');
                 } else {
                     episodeProgress[arc.name].push(epNo);
                     item.classList.add('watched');
                     item.querySelector('.ep-checkbox').textContent = '✓';
+                    btn.setAttribute('aria-pressed', 'true');
                 }
 
-                // If all episodes watched, maybe auto-mark arc? (Decided for manual control per user request for "clarity")
                 localStorage.setItem('onepace_episode_progress', JSON.stringify(episodeProgress));
                 renderJourney();
-            };
+            });
         });
 
         modal.classList.remove('hidden');
