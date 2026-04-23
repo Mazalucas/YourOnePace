@@ -16,6 +16,12 @@ build/icon.ico
 # Environment variables
 .env
 
+# Cursor / local IDE & AI tool configs (not part of the app; keep repo public-clean)
+.cursor/
+.gemini/
+.taskmaster/
+GEMINI.md
+
 # Editor directories and files
 .idea
 .vscode
