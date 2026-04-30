@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.15] - 2026-04-30
+
+### Added
+
+- **Footer version line** (“Version X.Y.Z”) above the copyright, driven by `<meta name="app-version">`; hidden locally when `%APP_VERSION%` is unresolved.
+- **CI injection** of `%APP_VERSION%` from `package.json` on **GitHub Pages**; release builds inject after syncing `package.json` to the tag (with optional GA4 in the same step).
+
 ## [1.0.14] - 2026-04-30
 
 ### Added

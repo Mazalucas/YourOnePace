@@ -18,20 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Inject GA4 Measurement ID into index.html (optional)
-        shell: bash
-        env:
-          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
-        run: |
-          if [ -n "$GA4_MEASUREMENT_ID" ]; then
-            node -e "
-              const fs = require('fs');
-              const p = 'index.html';
-              const id = process.env.GA4_MEASUREMENT_ID;
-              fs.writeFileSync(p, fs.readFileSync(p, 'utf8').split('%GA4_MEASUREMENT_ID%').join(id));
-            "
-          fi
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -44,6 +30,23 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/v}"
           npm version "$TAG" --no-git-tag-version --allow-same-version
+
+      - name: Inject app version into index.html (and optional GA4)
+        shell: bash
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+        run: |
+          APP_VERSION="$(node -p "require('./package.json').version")"
+          export APP_VERSION
+          node -e "
+            const fs = require('fs');
+            const path = 'index.html';
+            let html = fs.readFileSync(path, 'utf8');
+            const gaId = process.env.GA4_MEASUREMENT_ID || '';
+            if (gaId) html = html.split('%GA4_MEASUREMENT_ID%').join(gaId);
+            html = html.split('%APP_VERSION%').join(process.env.APP_VERSION);
+            fs.writeFileSync(path, html);
+          "
 
       - run: npm run build
 
@@ -69,19 +72,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Inject GA4 Measurement ID into index.html (optional)
-        env:
-          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
-        run: |
-          if [ -n "$GA4_MEASUREMENT_ID" ]; then
-            node -e "
-              const fs = require('fs');
-              const p = 'index.html';
-              const id = process.env.GA4_MEASUREMENT_ID;
-              fs.writeFileSync(p, fs.readFileSync(p, 'utf8').split('%GA4_MEASUREMENT_ID%').join(id));
-            "
-          fi
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -93,6 +83,22 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/v}"
           npm version "$TAG" --no-git-tag-version --allow-same-version
+
+      - name: Inject app version into index.html (and optional GA4)
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+        run: |
+          APP_VERSION="$(node -p "require('./package.json').version")"
+          export APP_VERSION
+          node -e "
+            const fs = require('fs');
+            const path = 'index.html';
+            let html = fs.readFileSync(path, 'utf8');
+            const gaId = process.env.GA4_MEASUREMENT_ID || '';
+            if (gaId) html = html.split('%GA4_MEASUREMENT_ID%').join(gaId);
+            html = html.split('%APP_VERSION%').join(process.env.APP_VERSION);
+            fs.writeFileSync(path, html);
+          "
 
       - run: node scripts/zip-web.js
 

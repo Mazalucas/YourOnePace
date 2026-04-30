@@ -3,6 +3,18 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    (function applyFooterVersion() {
+        const meta = document.querySelector('meta[name="app-version"]');
+        const line = document.getElementById('footer-app-version-line');
+        const span = document.getElementById('footer-app-version-value');
+        const raw = meta ? meta.getAttribute('content') : '';
+        const cleaned = typeof raw === 'string' ? raw.trim() : '';
+        if (!line || !span || !cleaned || cleaned.includes('%')) return;
+        if (!/^\d+\.\d+\.\d+$/.test(cleaned)) return;
+        span.textContent = cleaned;
+        line.hidden = false;
+    })();
+
     // UI Elements
     const upcomingContainer = document.getElementById('upcoming-arcs');
     const completedContainer = document.getElementById('completed-arcs');

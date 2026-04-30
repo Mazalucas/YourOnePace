@@ -27,12 +27,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Stage static site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Stage static site and inject app version from package.json
         run: |
           mkdir -p _site
           cp index.html index.css app.js data.js manifest.json sw.js _site/
           cp -r icons _site/
           touch _site/.nojekyll
+          APP_VERSION=$(node -p "require('./package.json').version")
+          sed -i "s|%APP_VERSION%|${APP_VERSION}|g" _site/index.html
 
       - name: Inject GA4 Measurement ID
         env:
