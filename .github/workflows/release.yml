@@ -18,6 +18,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Inject GA4 Measurement ID into index.html (optional)
+        shell: bash
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+        run: |
+          if [ -n "$GA4_MEASUREMENT_ID" ]; then
+            node -e "
+              const fs = require('fs');
+              const p = 'index.html';
+              const id = process.env.GA4_MEASUREMENT_ID;
+              fs.writeFileSync(p, fs.readFileSync(p, 'utf8').split('%GA4_MEASUREMENT_ID%').join(id));
+            "
+          fi
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -54,6 +68,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Inject GA4 Measurement ID into index.html (optional)
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+        run: |
+          if [ -n "$GA4_MEASUREMENT_ID" ]; then
+            node -e "
+              const fs = require('fs');
+              const p = 'index.html';
+              const id = process.env.GA4_MEASUREMENT_ID;
+              fs.writeFileSync(p, fs.readFileSync(p, 'utf8').split('%GA4_MEASUREMENT_ID%').join(id));
+            "
+          fi
 
       - uses: actions/setup-node@v4
         with:

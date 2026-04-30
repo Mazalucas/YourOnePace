@@ -7,13 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.14] - 2026-04-30
+
 ### Added
 
-- GitHub Actions workflow to deploy the static site to **GitHub Pages** (Mac-friendly install via browser, no DMG).
-
-### Changed
-
-- Documentation now recommends the **hosted web app** on macOS instead of the unsigned Electron download, to avoid Gatekeeper “damaged” prompts without Terminal.
+- **Google Analytics 4** (gtag): loads only when the Measurement ID is valid `G-…` after CI substitution; local/source checkout keeps a placeholder and skips loading scripts.
+- **GitHub Pages** deploy injects `GA4_MEASUREMENT_ID` from repository secrets; **Release** workflow optionally injects the same for desktop and web zip artifacts.
 
 ## [1.0.1] - 2026-04-18
 

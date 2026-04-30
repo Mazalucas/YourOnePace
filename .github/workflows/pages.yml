@@ -34,6 +34,16 @@ jobs:
           cp -r icons _site/
           touch _site/.nojekyll
 
+      - name: Inject GA4 Measurement ID
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+        run: |
+          if [ -z "$GA4_MEASUREMENT_ID" ]; then
+            echo "::error::Set repository secret GA4_MEASUREMENT_ID (Google Analytics Measurement ID G-…)"
+            exit 1
+          fi
+          sed -i "s|%GA4_MEASUREMENT_ID%|${GA4_MEASUREMENT_ID}|g" _site/index.html
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

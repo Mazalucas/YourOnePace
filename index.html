@@ -4,6 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Measurement ID: %GA4_MEASUREMENT_ID%. Replaced in CI via secret GA4_MEASUREMENT_ID -->
+    <script>
+      (function () {
+        var measurementId = '%GA4_MEASUREMENT_ID%';
+        if (!/^G-[A-Z0-9]+$/i.test(measurementId)) return;
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
+        document.head.appendChild(s);
+
+        gtag('js', new Date());
+        gtag('config', measurementId);
+      })();
+    </script>
     <title>Your One Pace | Your Ultimate One Piece Journey</title>
     <meta name="description"
         content="Browse the ultimate fan-edited version of the One Piece anime with improved pacing.">
