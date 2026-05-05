@@ -136,6 +136,27 @@
         </div>
     </div>
 
+    <div id="next-episode-modal" class="modal-overlay hidden" role="dialog" aria-modal="true"
+        aria-labelledby="next-episode-modal-title">
+        <div class="modal-content glass-card next-episode-modal-content">
+            <button id="close-next-episode-modal" class="close-modal" aria-label="Close message">&times;</button>
+            <h2 id="next-episode-modal-title" class="modal-title">Next Episode Unavailable</h2>
+            <p id="next-episode-modal-message"></p>
+        </div>
+    </div>
+
+    <div class="next-episode-dock" role="complementary" aria-label="Quick access to next episode">
+        <button id="play-next-episode" class="btn btn-primary play-next-btn" type="button">
+            <span class="play-next-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" focusable="false">
+                    <path fill="currentColor" d="M8 5v14l11-7z" />
+                </svg>
+            </span>
+            <span id="play-next-label" class="play-next-label-main">Play Next Episode</span>
+            <span id="play-next-context" class="play-next-label-context" aria-hidden="true"></span>
+        </button>
+    </div>
+
     <footer id="support">
         <div class="footer-support">
             <h2 class="footer-support-title">Support</h2>

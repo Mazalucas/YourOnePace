@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.20] - 2026-05-05
+
+### Added
+
+- **Quick next-episode dock** fixed at the bottom with a prominent “Play Next Episode” CTA and contextual arc/episode label.
+- **Unavailable-next fallback modal** when a direct episode link cannot be resolved.
+
+### Changed
+
+- **Next target resolution logic** computes the first unwatched episode across arcs and attempts to open the mapped Pixeldrain episode URL.
+- **Responsive/UI polish** for the new dock (mobile sizing, blur/glass treatment, disabled state, and focus styles), including extra body bottom padding to prevent overlap with content.
+
 ## [1.0.19] - 2026-05-05
 
 ### Changed

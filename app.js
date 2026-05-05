@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('arc-modal');
     const modalBody = document.getElementById('modal-body');
     const closeModal = document.querySelector('.close-modal');
+    const playNextEpisodeBtn = document.getElementById('play-next-episode');
+    const playNextLabel = document.getElementById('play-next-label');
+    const playNextContext = document.getElementById('play-next-context');
+    const nextEpisodeModal = document.getElementById('next-episode-modal');
+    const nextEpisodeModalMessage = document.getElementById('next-episode-modal-message');
+    const closeNextEpisodeModalBtn = document.getElementById('close-next-episode-modal');
 
     let allArcs = [];
     let watchedUpToIndex = parseInt(localStorage.getItem('onepace_watched_index') || '-1');
@@ -287,6 +293,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const progressPct = (completedCount / allArcs.length) * 100;
         progressBar.style.width = `${progressPct}%`;
+        updatePlayNextDock();
+    }
+
+    function getNextEpisodeTarget() {
+        for (const arc of allArcs) {
+            const isArcCompleted = arc.index <= watchedUpToIndex;
+            const watchedEpisodes = new Set(
+                episodeProgress[arc.name] || (isArcCompleted ? Array.from({ length: arc.episodesCount }, (_, i) => i + 1) : [])
+            );
+
+            for (let epNo = 1; epNo <= arc.episodesCount; epNo++) {
+                if (!watchedEpisodes.has(epNo)) {
+                    return { arc, episodeNumber: epNo };
+                }
+            }
+        }
+        return null;
+    }
+
+    function updatePlayNextDock() {
+        if (!playNextEpisodeBtn || !playNextLabel || !playNextContext) return;
+        const target = getNextEpisodeTarget();
+        if (!target) {
+            playNextLabel.textContent = 'All Episodes Completed';
+            playNextContext.textContent = '';
+            playNextEpisodeBtn.setAttribute('aria-label', 'All episodes completed');
+            playNextEpisodeBtn.disabled = true;
+            return;
+        }
+
+        playNextLabel.textContent = 'Play Next Episode';
+        playNextContext.textContent = `${target.arc.name} · Ep ${target.episodeNumber}`;
+        playNextEpisodeBtn.setAttribute('aria-label', `Play next episode: ${target.arc.name} episode ${target.episodeNumber}`);
+        playNextEpisodeBtn.disabled = false;
+    }
+
+    function showNextEpisodeFallbackModal(target) {
+        if (!nextEpisodeModal || !nextEpisodeModalMessage) return;
+        if (target) {
+            nextEpisodeModalMessage.textContent =
+                `We could not find a direct link for ${target.arc.name} - Episode ${target.episodeNumber}. Please open that arc manually and continue from there.`;
+        } else {
+            nextEpisodeModalMessage.textContent =
+                'We could not determine your next episode. Please open the arc manually and continue from there.';
+        }
+        nextEpisodeModal.classList.remove('hidden');
+    }
+
+    async function resolveNextEpisodeUrl(target) {
+        if (!target) return null;
+        const details = (window.EPISODE_DATA || {})[target.arc.name];
+        const curatedLinks = Array.isArray(details?.links) ? details.links : [];
+        const pdListBaseUrl = getPixeldrainListUrlForChecklist(curatedLinks);
+        if (!pdListBaseUrl) return null;
+
+        const listId = pixeldrainListIdFromUrl(pdListBaseUrl);
+        if (listId) {
+            const meta = await fetchPixeldrainListMeta(listId);
+            if (meta && meta.file_count != null && meta.file_count < target.episodeNumber) {
+                return null;
+            }
+        }
+
+        return buildPixeldrainListEpisodeUrl(pdListBaseUrl, target.episodeNumber);
     }
 
     function createArcElement(arc, isWatched) {
@@ -529,6 +599,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modal.classList.remove('hidden');
     }
+
+    if (playNextEpisodeBtn) {
+        playNextEpisodeBtn.addEventListener('click', async () => {
+            const target = getNextEpisodeTarget();
+            if (!target) {
+                showNextEpisodeFallbackModal(null);
+                return;
+            }
+
+            const nextUrl = await resolveNextEpisodeUrl(target);
+            if (!nextUrl) {
+                showNextEpisodeFallbackModal(target);
+                return;
+            }
+
+            window.open(nextUrl, '_blank', 'noopener,noreferrer');
+        });
+    }
+
+    closeNextEpisodeModalBtn?.addEventListener('click', () => nextEpisodeModal?.classList.add('hidden'));
+    nextEpisodeModal?.addEventListener('click', (e) => {
+        if (e.target === nextEpisodeModal) nextEpisodeModal.classList.add('hidden');
+    });
 
     init();
 });
