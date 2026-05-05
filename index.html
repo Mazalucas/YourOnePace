@@ -60,49 +60,48 @@
     </header>
 
     <main>
-        <div class="progress-header-slot" id="progress-header-slot"></div>
-        <section class="progress-header glass-card" id="progress-header-panel">
-            <div class="progress-info" id="progress-info">
-                <div class="progress-summary-row">
-                    <div class="progress-stats">
-                        <div class="journey-status">
-                            <span id="arcs-completed">0</span> / <span id="total-arcs">0</span> Arcs Completed
-                        </div>
-                        <div class="time-saved-total">
-                            Total Time Saved: <span id="total-savings-val">0</span> minutes
-                        </div>
-                    </div>
-                    <button type="button" id="progress-expand-toggle" class="progress-expand-toggle"
-                        aria-expanded="false" aria-controls="progress-toolbar-panel"
-                        aria-label="Show backup and reset options">
-                        <span class="progress-expand-icon" aria-hidden="true">
-                            <svg width="20" height="20" viewBox="0 0 24 24" focusable="false">
-                                <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                    stroke-linejoin="round" d="M8 10l4 4 4-4" />
-                            </svg>
-                        </span>
-                    </button>
-                </div>
-                <div id="progress-toolbar-panel" class="progress-toolbar-shell" aria-hidden="true">
-                    <div id="progress-toolbar-inner" class="progress-toolbar-inner" inert>
-                        <div class="progress-toolbar">
-                            <button id="reset-journey" class="btn btn-outline btn-small" type="button">Reset Progress</button>
-                            <button id="export-progress" class="btn btn-outline btn-small" type="button">Backup</button>
-                            <button id="import-trigger" class="btn btn-outline btn-small" type="button">Restore</button>
-                        </div>
-                    </div>
-                </div>
-                <input type="file" id="import-progress" hidden accept=".json">
-            </div>
-            <div class="progress-bar-container">
-                <div id="journey-progress" class="progress-fill"></div>
-            </div>
-        </section>
-
         <section class="hero">
             <h1 class="hero-title animate-pop-in">Your Journey Through <span class="highlight">One Piece</span></h1>
             <p class="hero-subtitle animate-fade-in">Find your current arc and track your progress. Manga-accurate
                 pacing, Zero filler.</p>
+
+            <section class="progress-header glass-card" id="progress-header-panel">
+                <div class="progress-info" id="progress-info">
+                    <div class="progress-summary-row">
+                        <div class="progress-stats">
+                            <div class="journey-status">
+                                <span id="arcs-completed">0</span> / <span id="total-arcs">0</span> Arcs Completed
+                            </div>
+                            <div class="time-saved-total">
+                                Total Time Saved: <span id="total-savings-val">0</span> minutes
+                            </div>
+                        </div>
+                        <button type="button" id="progress-expand-toggle" class="progress-expand-toggle"
+                            aria-expanded="false" aria-controls="progress-toolbar-panel"
+                            aria-label="Show backup and reset options">
+                            <span class="progress-expand-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" focusable="false">
+                                    <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                        stroke-linejoin="round" d="M8 10l4 4 4-4" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <div id="progress-toolbar-panel" class="progress-toolbar-shell" aria-hidden="true">
+                        <div id="progress-toolbar-inner" class="progress-toolbar-inner" inert>
+                            <div class="progress-toolbar">
+                                <button id="reset-journey" class="btn btn-outline btn-small" type="button">Reset Progress</button>
+                                <button id="export-progress" class="btn btn-outline btn-small" type="button">Backup</button>
+                                <button id="import-trigger" class="btn btn-outline btn-small" type="button">Restore</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="import-progress" hidden accept=".json">
+                </div>
+                <div class="progress-bar-container">
+                    <div id="journey-progress" class="progress-fill"></div>
+                </div>
+            </section>
 
             <div class="search-container">
                 <input type="text" id="arc-search" placeholder="Look up an arc or episode..." aria-label="Search Arcs">

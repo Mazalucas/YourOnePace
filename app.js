@@ -29,78 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressToolbarInner = document.getElementById('progress-toolbar-inner');
     const template = document.getElementById('arc-card-template');
     let toolbarExpanded = false;
-    const progressHeaderPanel = document.getElementById('progress-header-panel');
-    const progressHeaderSlot = document.getElementById('progress-header-slot');
-
-    let lastScrollY = window.scrollY;
-    let progressScrollHidden = false;
-    /** After collapsing the progress slot, the browser may lower scrollY; ignore one "scroll up" beat. */
-    let suppressShowOnScrollUp = false;
-    const SCROLL_DIR_THRESHOLD = 4;
-
-    function progressSlotHeight() {
-        const styles = getComputedStyle(progressHeaderPanel);
-        const mt = parseFloat(styles.marginTop) || 0;
-        const mb = parseFloat(styles.marginBottom) || 0;
-        return progressHeaderPanel.offsetHeight + mt + mb;
-    }
-
-    function updateProgressChrome() {
-        const headerEl = document.querySelector('header');
-        if (headerEl) {
-            const bottom = headerEl.getBoundingClientRect().bottom;
-            document.documentElement.style.setProperty(
-                '--progress-header-top',
-                `${Math.round(bottom + 12)}px`
-            );
-        }
-        if (!progressScrollHidden) {
-            progressHeaderSlot.style.height = `${progressSlotHeight()}px`;
-        }
-    }
-
-    function setProgressScrollHidden(hidden) {
-        if (progressScrollHidden === hidden) return;
-        progressScrollHidden = hidden;
-        progressHeaderPanel.classList.toggle('is-scroll-hidden', hidden);
-        progressHeaderSlot.style.height = hidden ? '0px' : `${progressSlotHeight()}px`;
-        if (hidden) {
-            suppressShowOnScrollUp = true;
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    lastScrollY = window.scrollY;
-                    suppressShowOnScrollUp = false;
-                });
-            });
-        }
-    }
-
-    let scrollRaf = 0;
-    function onWindowScroll() {
-        if (scrollRaf) return;
-        scrollRaf = requestAnimationFrame(() => {
-            scrollRaf = 0;
-            const y = window.scrollY;
-            if (y < 32) {
-                setProgressScrollHidden(false);
-            } else if (y > lastScrollY + SCROLL_DIR_THRESHOLD) {
-                setProgressScrollHidden(true);
-            } else if (!suppressShowOnScrollUp && y < lastScrollY - SCROLL_DIR_THRESHOLD) {
-                setProgressScrollHidden(false);
-            }
-            lastScrollY = y;
-        });
-    }
-
-    window.addEventListener('scroll', onWindowScroll, { passive: true });
-    window.addEventListener('resize', updateProgressChrome);
-    if (typeof ResizeObserver !== 'undefined') {
-        const ro = new ResizeObserver(updateProgressChrome);
-        ro.observe(progressHeaderPanel);
-        const headerForRo = document.querySelector('header');
-        if (headerForRo) ro.observe(headerForRo);
-    }
-    updateProgressChrome();
 
     // Modal Elements
     const modal = document.getElementById('arc-modal');
@@ -133,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'aria-label',
             expanded ? 'Hide backup and reset options' : 'Show backup and reset options'
         );
-        updateProgressChrome();
     }
 
     function collapseProgressToolbar() {
@@ -353,16 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Update Progress Header
-        const totalPossibleSavings = allArcs.reduce((acc, curr) => acc + curr.saved, 0);
+        // Update progress card in hero
         totalArcsText.textContent = allArcs.length;
         arcsCompletedText.textContent = completedCount;
         totalSavingsText.textContent = completedTotalSavings.toLocaleString();
 
         const progressPct = (completedCount / allArcs.length) * 100;
         progressBar.style.width = `${progressPct}%`;
-
-        requestAnimationFrame(() => updateProgressChrome());
     }
 
     function createArcElement(arc, isWatched) {

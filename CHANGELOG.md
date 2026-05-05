@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.19] - 2026-05-05
+
+### Changed
+
+- **Progress card placement**: move the journey stats card **into the hero** (below subtitle, above search) instead of a **fixed** header under the nav with a spacer slot and scroll-hide behaviour.
+- **Layout/CSS**: drop `--progress-header-top`, slot height logic, and scroll listeners; style `.hero .progress-header` as a normal in-flow card (`max-width: 600px`, centered).
+
 ## [1.0.18] - 2026-05-05
 
 ### Changed
