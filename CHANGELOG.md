@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.16] - 2026-05-05
+
+### Changed
+
+- **Progress header UX**: consolidate Reset Progress, Backup, and Restore behind an **Actions** menu with dropdown styling; close on outside click, Escape, or after invoking an action.
+- **Progress stats layout**: group arc completion and “Total Time Saved” in a dedicated `.progress-stats` row with responsive tweaks for narrow viewports.
+
 ## [1.0.15] - 2026-04-30
 
 ### Added

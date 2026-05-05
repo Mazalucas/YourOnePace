@@ -63,15 +63,24 @@
         <div class="progress-header-slot" id="progress-header-slot"></div>
         <section class="progress-header glass-card" id="progress-header-panel">
             <div class="progress-info">
-                <div class="journey-status">
-                    <span id="arcs-completed">0</span> / <span id="total-arcs">0</span> Arcs Completed
+                <div class="progress-stats">
+                    <div class="journey-status">
+                        <span id="arcs-completed">0</span> / <span id="total-arcs">0</span> Arcs Completed
+                    </div>
+                    <div class="time-saved-total">
+                        Total Time Saved: <span id="total-savings-val">0</span> minutes
+                    </div>
                 </div>
-                <div class="time-saved-total">
-                    Total Time Saved: <span id="total-savings-val">0</span> minutes
+                <div class="progress-actions-menu">
+                    <button id="progress-actions-toggle" class="btn btn-outline btn-small" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="progress-actions-list">
+                        Actions
+                    </button>
+                    <div id="progress-actions-list" class="progress-actions-list" hidden>
+                        <button id="reset-journey" class="btn btn-outline btn-small" type="button">Reset Progress</button>
+                        <button id="export-progress" class="btn btn-outline btn-small" type="button">Backup</button>
+                        <button id="import-trigger" class="btn btn-outline btn-small" type="button">Restore</button>
+                    </div>
                 </div>
-                <button id="reset-journey" class="btn btn-outline btn-small">Reset Progress</button>
-                <button id="export-progress" class="btn btn-outline btn-small">Backup</button>
-                <button id="import-trigger" class="btn btn-outline btn-small">Restore</button>
                 <input type="file" id="import-progress" hidden accept=".json">
             </div>
             <div class="progress-bar-container">
