@@ -145,6 +145,19 @@
         </div>
     </div>
 
+    <div id="episode-playback-confirm-modal" class="modal-overlay hidden" role="dialog" aria-modal="true"
+        aria-labelledby="episode-playback-confirm-title">
+        <div class="modal-content glass-card playback-confirm-modal-content">
+            <button id="close-playback-confirm-modal" class="close-modal" aria-label="Close confirmation">&times;</button>
+            <h2 id="episode-playback-confirm-title" class="modal-title">Did you finish this episode?</h2>
+            <p id="episode-playback-confirm-message"></p>
+            <div class="playback-confirm-actions">
+                <button id="playback-confirm-later" class="btn btn-outline" type="button">Not Yet</button>
+                <button id="playback-confirm-watched" class="btn btn-primary" type="button">Mark as Watched</button>
+            </div>
+        </div>
+    </div>
+
     <div class="next-episode-dock" role="complementary" aria-label="Quick access to next episode">
         <button id="play-next-episode" class="btn btn-primary play-next-btn" type="button">
             <span class="play-next-icon" aria-hidden="true">

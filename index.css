@@ -969,6 +969,80 @@ header {
     max-width: 560px;
 }
 
+.playback-confirm-modal-content {
+    max-width: 560px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(145deg, rgba(24, 24, 28, 0.96) 0%, rgba(14, 14, 18, 0.96) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 56px rgba(0, 0, 0, 0.5);
+}
+
+#episode-playback-confirm-title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    line-height: 1.15;
+    color: #f3f4f6;
+    text-wrap: balance;
+}
+
+#episode-playback-confirm-message {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.98rem;
+    line-height: 1.45;
+}
+
+.playback-confirm-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+#playback-confirm-later,
+#playback-confirm-watched {
+    min-width: 9.5rem;
+    min-height: 2.9rem;
+    border-radius: 12px;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+#playback-confirm-later {
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+}
+
+#playback-confirm-later:hover {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+#playback-confirm-watched {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(135deg, #26a269 0%, #1f8b5a 100%);
+    box-shadow: 0 10px 24px rgba(38, 162, 105, 0.28);
+}
+
+#playback-confirm-watched:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 12px 28px rgba(38, 162, 105, 0.36);
+}
+
+#playback-confirm-later:focus-visible,
+#playback-confirm-watched:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.58);
+    outline-offset: 2px;
+}
+
 /* Animations */
 .animate-pop-in {
     animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1203,6 +1277,10 @@ footer {
         border-radius: 20px 20px 0 0;
     }
 
+    .playback-confirm-modal-content {
+        border-radius: 22px 22px 0 0;
+    }
+
     .next-episode-dock {
         width: calc(100% - 1rem);
         bottom: 0.5rem;
@@ -1221,6 +1299,16 @@ footer {
 
     #play-next-context {
         max-width: 34vw;
+    }
+
+    .playback-confirm-actions {
+        justify-content: stretch;
+    }
+
+    #playback-confirm-later,
+    #playback-confirm-watched {
+        flex: 1 1 100%;
+        width: 100%;
     }
 
     .close-modal {

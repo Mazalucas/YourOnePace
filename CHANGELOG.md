@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.21] - 2026-05-05
+
+### Added
+
+- **Playback return confirmation modal** that asks whether the user finished the launched next episode, with actions to defer or mark watched.
+
+### Changed
+
+- **Pending-playback state** is persisted in `localStorage` and restored on load to support browser/app focus changes.
+- **Auto-prompt behavior** now checks focus/visibility and a minimum delay before showing the confirmation dialog.
+- **Episode completion flow** can mark the confirmed episode as watched directly from the modal and re-render progress immediately.
+
 ## [1.0.20] - 2026-05-05
 
 ### Added

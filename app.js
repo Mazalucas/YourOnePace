@@ -40,10 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextEpisodeModal = document.getElementById('next-episode-modal');
     const nextEpisodeModalMessage = document.getElementById('next-episode-modal-message');
     const closeNextEpisodeModalBtn = document.getElementById('close-next-episode-modal');
+    const playbackConfirmModal = document.getElementById('episode-playback-confirm-modal');
+    const playbackConfirmMessage = document.getElementById('episode-playback-confirm-message');
+    const closePlaybackConfirmModalBtn = document.getElementById('close-playback-confirm-modal');
+    const playbackConfirmLaterBtn = document.getElementById('playback-confirm-later');
+    const playbackConfirmWatchedBtn = document.getElementById('playback-confirm-watched');
 
     let allArcs = [];
     let watchedUpToIndex = parseInt(localStorage.getItem('onepace_watched_index') || '-1');
     let episodeProgress = JSON.parse(localStorage.getItem('onepace_episode_progress') || '{}');
+    const PENDING_CONFIRM_KEY = 'onepace_pending_episode_confirmation';
+    const MIN_RETURN_PROMPT_DELAY_MS = 10 * 1000;
+    let pendingEpisodeConfirmation = null;
 
     // Data Portability
     const exportBtn = document.getElementById('export-progress');
@@ -341,6 +349,59 @@ document.addEventListener('DOMContentLoaded', () => {
         nextEpisodeModal.classList.remove('hidden');
     }
 
+    function loadPendingEpisodeConfirmation() {
+        try {
+            const raw = localStorage.getItem(PENDING_CONFIRM_KEY);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || !parsed.arcName || !Number.isInteger(parsed.episodeNumber)) return null;
+            return parsed;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function savePendingEpisodeConfirmation(target) {
+        if (!target || !target.arc) return;
+        pendingEpisodeConfirmation = {
+            arcName: target.arc.name,
+            episodeNumber: target.episodeNumber,
+            openedAt: Date.now()
+        };
+        localStorage.setItem(PENDING_CONFIRM_KEY, JSON.stringify(pendingEpisodeConfirmation));
+    }
+
+    function clearPendingEpisodeConfirmation() {
+        pendingEpisodeConfirmation = null;
+        localStorage.removeItem(PENDING_CONFIRM_KEY);
+    }
+
+    function closePlaybackConfirmModal() {
+        playbackConfirmModal?.classList.add('hidden');
+    }
+
+    function markEpisodeAsWatched(arcName, episodeNumber) {
+        if (!arcName || !Number.isInteger(episodeNumber)) return;
+        if (!episodeProgress[arcName]) episodeProgress[arcName] = [];
+        if (!episodeProgress[arcName].includes(episodeNumber)) {
+            episodeProgress[arcName].push(episodeNumber);
+            episodeProgress[arcName].sort((a, b) => a - b);
+        }
+        localStorage.setItem('onepace_episode_progress', JSON.stringify(episodeProgress));
+        renderJourney();
+    }
+
+    function maybePromptPendingEpisodeConfirmation() {
+        if (!pendingEpisodeConfirmation || !playbackConfirmModal || !playbackConfirmMessage) return;
+        if (!playbackConfirmModal.classList.contains('hidden')) return;
+        if (Date.now() - pendingEpisodeConfirmation.openedAt < MIN_RETURN_PROMPT_DELAY_MS) return;
+        if (document.visibilityState === 'hidden') return;
+
+        playbackConfirmMessage.textContent =
+            `${pendingEpisodeConfirmation.arcName} - Episode ${pendingEpisodeConfirmation.episodeNumber}`;
+        playbackConfirmModal.classList.remove('hidden');
+    }
+
     async function resolveNextEpisodeUrl(target) {
         if (!target) return null;
         const details = (window.EPISODE_DATA || {})[target.arc.name];
@@ -614,6 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            savePendingEpisodeConfirmation(target);
             window.open(nextUrl, '_blank', 'noopener,noreferrer');
         });
     }
@@ -623,5 +685,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === nextEpisodeModal) nextEpisodeModal.classList.add('hidden');
     });
 
+    closePlaybackConfirmModalBtn?.addEventListener('click', closePlaybackConfirmModal);
+    playbackConfirmLaterBtn?.addEventListener('click', closePlaybackConfirmModal);
+    playbackConfirmWatchedBtn?.addEventListener('click', () => {
+        if (!pendingEpisodeConfirmation) return;
+        markEpisodeAsWatched(pendingEpisodeConfirmation.arcName, pendingEpisodeConfirmation.episodeNumber);
+        clearPendingEpisodeConfirmation();
+        closePlaybackConfirmModal();
+    });
+    playbackConfirmModal?.addEventListener('click', (e) => {
+        if (e.target === playbackConfirmModal) closePlaybackConfirmModal();
+    });
+    window.addEventListener('focus', maybePromptPendingEpisodeConfirmation);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') maybePromptPendingEpisodeConfirmation();
+    });
+
+    pendingEpisodeConfirmation = loadPendingEpisodeConfirmation();
     init();
 });
