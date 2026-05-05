@@ -321,29 +321,64 @@ header {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 2.6rem;
+    height: 2.6rem;
     padding: 0;
-    border-radius: 12px;
+    border-radius: 50%;
     border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.04);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: var(--text-secondary);
     cursor: pointer;
-    transition: var(--transition-smooth), transform 0.25s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 14px rgba(0, 0, 0, 0.25);
+    touch-action: manipulation;
+    transition: border-color 0.22s ease, background 0.22s ease, color 0.22s ease, box-shadow 0.25s ease;
 }
 
 .progress-expand-toggle:hover {
     color: var(--text-primary);
-    border-color: rgba(255, 215, 0, 0.35);
+    border-color: rgba(255, 215, 0, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 0 1px rgba(255, 215, 0, 0.12), 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
-.progress-expand-chevron {
-    display: block;
-    transition: transform 0.25s ease;
+.progress-expand-toggle:focus-visible {
+    outline: 2px solid rgba(255, 215, 0, 0.55);
+    outline-offset: 2px;
 }
 
-.progress-info.is-toolbar-expanded .progress-expand-chevron {
+.progress-info.is-toolbar-expanded .progress-expand-toggle {
+    color: var(--gold);
+    border-color: rgba(255, 215, 0, 0.42);
+    background: linear-gradient(145deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 20px rgba(255, 215, 0, 0.12);
+}
+
+.progress-expand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+    transition: transform 0.32s cubic-bezier(0.34, 1.35, 0.64, 1);
+}
+
+.progress-info.is-toolbar-expanded .progress-expand-icon {
     transform: rotate(180deg);
+}
+
+.progress-toolbar-shell {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progress-info.is-toolbar-expanded .progress-toolbar-shell {
+    grid-template-rows: 1fr;
+}
+
+.progress-toolbar-inner {
+    overflow: hidden;
+    min-height: 0;
 }
 
 .progress-toolbar {
@@ -352,8 +387,19 @@ header {
     align-items: center;
     justify-content: flex-end;
     gap: 0.5rem 0.75rem;
-    padding-top: 0.65rem;
+    padding-top: 0.75rem;
+    margin-top: 0.05rem;
     border-top: 1px solid var(--glass-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress-toolbar-shell {
+        transition-duration: 0.01ms;
+    }
+
+    .progress-expand-icon {
+        transition-duration: 0.01ms;
+    }
 }
 
 .progress-stats {
@@ -1038,11 +1084,11 @@ footer {
         align-self: center;
     }
 
-    .progress-toolbar {
+    .progress-toolbar-shell .progress-toolbar {
         justify-content: center;
     }
 
-    .progress-toolbar .btn {
+    .progress-toolbar-shell .progress-toolbar .btn {
         width: 100%;
         justify-content: center;
     }

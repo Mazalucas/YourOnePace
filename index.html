@@ -73,19 +73,24 @@
                         </div>
                     </div>
                     <button type="button" id="progress-expand-toggle" class="progress-expand-toggle"
-                        aria-expanded="false" aria-controls="progress-toolbar"
+                        aria-expanded="false" aria-controls="progress-toolbar-panel"
                         aria-label="Show backup and reset options">
-                        <svg class="progress-expand-chevron" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"
-                            fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
+                        <span class="progress-expand-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" focusable="false">
+                                <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" d="M8 10l4 4 4-4" />
+                            </svg>
+                        </span>
                     </button>
                 </div>
-                <div id="progress-toolbar" class="progress-toolbar" hidden>
-                    <button id="reset-journey" class="btn btn-outline btn-small" type="button">Reset Progress</button>
-                    <button id="export-progress" class="btn btn-outline btn-small" type="button">Backup</button>
-                    <button id="import-trigger" class="btn btn-outline btn-small" type="button">Restore</button>
+                <div id="progress-toolbar-panel" class="progress-toolbar-shell" aria-hidden="true">
+                    <div id="progress-toolbar-inner" class="progress-toolbar-inner" inert>
+                        <div class="progress-toolbar">
+                            <button id="reset-journey" class="btn btn-outline btn-small" type="button">Reset Progress</button>
+                            <button id="export-progress" class="btn btn-outline btn-small" type="button">Backup</button>
+                            <button id="import-trigger" class="btn btn-outline btn-small" type="button">Restore</button>
+                        </div>
+                    </div>
                 </div>
                 <input type="file" id="import-progress" hidden accept=".json">
             </div>

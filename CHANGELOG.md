@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.18] - 2026-05-05
+
+### Changed
+
+- **Progress toolbar reveal**: animate open/close with a **CSS grid row** (`grid-template-rows` 0fr → 1fr) instead of toggling `hidden` on the button row alone.
+- **Accessibility**: **`inert`** on the collapsed toolbar wrapper; `aria-hidden` on the panel; expansion state tracked explicitly so outside-click logic stays correct when the panel is not `hidden`.
+- **Expand control styling**: circular glass-style button, stronger focus-visible ring, gold accent when expanded; **`prefers-reduced-motion`** short-circuits transitions.
+
 ## [1.0.17] - 2026-05-05
 
 ### Changed

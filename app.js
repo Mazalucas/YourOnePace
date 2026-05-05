@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSavingsText = document.getElementById('total-savings-val');
     const progressInfo = document.getElementById('progress-info');
     const progressExpandToggle = document.getElementById('progress-expand-toggle');
-    const progressToolbar = document.getElementById('progress-toolbar');
+    const progressToolbarPanel = document.getElementById('progress-toolbar-panel');
+    const progressToolbarInner = document.getElementById('progress-toolbar-inner');
     const template = document.getElementById('arc-card-template');
+    let toolbarExpanded = false;
     const progressHeaderPanel = document.getElementById('progress-header-panel');
     const progressHeaderSlot = document.getElementById('progress-header-slot');
 
@@ -115,10 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const importFile = document.getElementById('import-progress');
 
     function setProgressToolbarExpanded(expanded) {
-        if (!progressToolbar || !progressExpandToggle) return;
-        progressToolbar.hidden = !expanded;
-        progressExpandToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        if (!progressExpandToggle) return;
+        toolbarExpanded = expanded;
         progressInfo?.classList.toggle('is-toolbar-expanded', expanded);
+        progressExpandToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        progressToolbarPanel?.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+        if (progressToolbarInner) {
+            if (expanded) {
+                progressToolbarInner.removeAttribute('inert');
+            } else {
+                progressToolbarInner.setAttribute('inert', '');
+            }
+        }
         progressExpandToggle.setAttribute(
             'aria-label',
             expanded ? 'Hide backup and reset options' : 'Show backup and reset options'
@@ -131,8 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleProgressToolbar() {
-        if (!progressToolbar) return;
-        setProgressToolbarExpanded(progressToolbar.hidden);
+        setProgressToolbarExpanded(!toolbarExpanded);
     }
 
     if (progressExpandToggle) {
@@ -142,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     document.addEventListener('click', (e) => {
-        if (!progressInfo || !progressToolbar || progressToolbar.hidden) return;
+        if (!toolbarExpanded || !progressInfo) return;
         if (!progressInfo.contains(e.target)) collapseProgressToolbar();
     });
     document.addEventListener('keydown', (e) => {
