@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const arcsCompletedText = document.getElementById('arcs-completed');
     const totalArcsText = document.getElementById('total-arcs');
     const totalSavingsText = document.getElementById('total-savings-val');
-    const progressActionsMenu = document.querySelector('.progress-actions-menu');
-    const progressActionsToggle = document.getElementById('progress-actions-toggle');
-    const progressActionsList = document.getElementById('progress-actions-list');
+    const progressInfo = document.getElementById('progress-info');
+    const progressExpandToggle = document.getElementById('progress-expand-toggle');
+    const progressToolbar = document.getElementById('progress-toolbar');
     const template = document.getElementById('arc-card-template');
     const progressHeaderPanel = document.getElementById('progress-header-panel');
     const progressHeaderSlot = document.getElementById('progress-header-slot');
@@ -113,32 +113,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportBtn = document.getElementById('export-progress');
     const importTrigger = document.getElementById('import-trigger');
     const importFile = document.getElementById('import-progress');
-    const closeProgressActions = () => {
-        if (!progressActionsList || !progressActionsToggle) return;
-        progressActionsList.hidden = true;
-        progressActionsToggle.setAttribute('aria-expanded', 'false');
-    };
-    const toggleProgressActions = () => {
-        if (!progressActionsList || !progressActionsToggle) return;
-        const open = progressActionsList.hidden;
-        progressActionsList.hidden = !open;
-        progressActionsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    };
 
-    if (progressActionsToggle) {
-        progressActionsToggle.addEventListener('click', (e) => {
+    function setProgressToolbarExpanded(expanded) {
+        if (!progressToolbar || !progressExpandToggle) return;
+        progressToolbar.hidden = !expanded;
+        progressExpandToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        progressInfo?.classList.toggle('is-toolbar-expanded', expanded);
+        progressExpandToggle.setAttribute(
+            'aria-label',
+            expanded ? 'Hide backup and reset options' : 'Show backup and reset options'
+        );
+        updateProgressChrome();
+    }
+
+    function collapseProgressToolbar() {
+        setProgressToolbarExpanded(false);
+    }
+
+    function toggleProgressToolbar() {
+        if (!progressToolbar) return;
+        setProgressToolbarExpanded(progressToolbar.hidden);
+    }
+
+    if (progressExpandToggle) {
+        progressExpandToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            toggleProgressActions();
+            toggleProgressToolbar();
         });
     }
     document.addEventListener('click', (e) => {
-        if (!progressActionsMenu || !progressActionsList || progressActionsList.hidden) return;
-        if (!progressActionsMenu.contains(e.target)) {
-            closeProgressActions();
-        }
+        if (!progressInfo || !progressToolbar || progressToolbar.hidden) return;
+        if (!progressInfo.contains(e.target)) collapseProgressToolbar();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeProgressActions();
+        if (e.key === 'Escape') collapseProgressToolbar();
     });
 
     exportBtn.onclick = () => {
@@ -154,12 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
         a.href = url;
         a.download = `your-one-pace-progress-${new Date().toLocaleDateString()}.json`;
         a.click();
-        closeProgressActions();
+        collapseProgressToolbar();
     };
 
     importTrigger.onclick = () => {
         importFile.click();
-        closeProgressActions();
+        collapseProgressToolbar();
     };
     importFile.onchange = (e) => {
         const file = e.target.files[0];
@@ -194,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('onepace_watched_index');
             localStorage.removeItem('onepace_episode_progress');
             renderJourney();
-            closeProgressActions();
+            collapseProgressToolbar();
         }
     };
 

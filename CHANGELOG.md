@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.17] - 2026-05-05
+
+### Changed
+
+- **Progress header**: replace the Actions **dropdown** with an **expandable toolbar** (chevron toggle) that reveals Reset / Backup / Restore in a full-width row under the stats; chevron rotates when expanded.
+- **Behaviour**: keep outside-click and Escape dismissal; dynamic `aria-label` on the toggle; `updateProgressChrome` runs when expansion state changes.
+
 ## [1.0.16] - 2026-05-05
 
 ### Changed

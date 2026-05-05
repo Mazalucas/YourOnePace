@@ -302,11 +302,58 @@ header {
 
 .progress-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
     font-weight: 700;
     font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+.progress-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    flex-wrap: wrap;
+}
+
+.progress-expand-toggle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth), transform 0.25s ease;
+}
+
+.progress-expand-toggle:hover {
+    color: var(--text-primary);
+    border-color: rgba(255, 215, 0, 0.35);
+}
+
+.progress-expand-chevron {
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.progress-info.is-toolbar-expanded .progress-expand-chevron {
+    transform: rotate(180deg);
+}
+
+.progress-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--glass-border);
 }
 
 .progress-stats {
@@ -330,31 +377,6 @@ header {
 
 .progress-info .btn-outline:hover {
     color: var(--text-primary);
-}
-
-.progress-actions-menu {
-    position: relative;
-}
-
-.progress-actions-list {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
-    min-width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    padding: 0.65rem;
-    border-radius: 14px;
-    background: rgba(12, 12, 20, 0.95);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
-    z-index: 3;
-}
-
-.progress-actions-list .btn {
-    width: 100%;
-    justify-content: center;
 }
 
 .progress-bar-container {
@@ -999,31 +1021,30 @@ footer {
     }
 
     .progress-info {
-        flex-direction: column;
         align-items: stretch;
         text-align: center;
+    }
+
+    .progress-summary-row {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .progress-stats {
         justify-content: center;
     }
 
-    .progress-actions-menu {
-        width: 100%;
+    .progress-expand-toggle {
+        align-self: center;
     }
 
-    .progress-actions-menu>.btn {
-        width: 100%;
+    .progress-toolbar {
+        justify-content: center;
     }
 
-    .progress-actions-list {
-        position: static;
-        margin-top: 0.6rem;
-        min-width: 0;
-    }
-
-    .progress-info .btn {
+    .progress-toolbar .btn {
         width: 100%;
+        justify-content: center;
     }
 
     .timeline-section {
