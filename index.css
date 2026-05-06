@@ -277,11 +277,12 @@ header {
     width: 100%;
     max-width: 600px;
     margin: 0 auto 1.75rem;
-    padding: 1.35rem 1.5rem;
+    padding: 1.35rem 1.5rem 2.35rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     text-align: left;
+    overflow: visible;
 }
 
 .progress-info {
@@ -301,6 +302,11 @@ header {
 }
 
 .progress-expand-toggle {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    z-index: 2;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -369,7 +375,7 @@ header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 0.5rem 0.75rem;
     padding-top: 0.75rem;
     margin-top: 0.05rem;
@@ -1197,7 +1203,7 @@ footer {
 
     .hero .progress-header {
         margin-bottom: 1.25rem;
-        padding: 1.2rem 1.15rem;
+        padding: 1.2rem 1.15rem 2.2rem;
     }
 
     .progress-info {
@@ -1212,10 +1218,6 @@ footer {
 
     .progress-stats {
         justify-content: center;
-    }
-
-    .progress-expand-toggle {
-        align-self: center;
     }
 
     .progress-toolbar-shell .progress-toolbar {

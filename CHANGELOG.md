@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.23] - 2026-05-06
+
+### Changed
+
+- **Progress card controls**: move the expand/collapse chevron to an anchored bottom-center position overlapping the progress card edge for clearer affordance.
+- **Toolbar alignment**: center toolbar actions consistently within the expanded panel.
+- **Main nav simplification**: remove the top-nav "Brand Guidelines" link from the home page navigation.
+
 ## [1.0.22] - 2026-05-06
 
 ### Added

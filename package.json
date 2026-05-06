@@ -1,7 +1,7 @@
 {
   "name": "your-one-pace",
   "productName": "Your One Pace",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Track your journey through the One Pace fan edit of One Piece",
   "main": "electron/main.js",
   "author": "",
@@ -17,7 +17,7 @@
   "build": {
     "appId": "com.youronepace.tracker",
     "productName": "Your One Pace",
-    "copyright": "Copyright © contributors",
+    "copyright": "Copyright \u00a9 contributors",
     "directories": {
       "output": "release"
     },
