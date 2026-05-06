@@ -1,5 +1,5 @@
 // Bump this when you change precached static assets so clients drop old caches.
-const CACHE_NAME = 'your-one-pace-v4';
+const CACHE_NAME = 'your-one-pace-v5';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -7,7 +7,7 @@ const PRECACHE_URLS = [
   './app.js',
   './data.js',
   './manifest.json',
-  './icons/pwa-512.png'
+  './icons/OnePiece-pwa-logo.png'
 ];
 
 /** HTML + JS: network-first so deploys (especially data.js links) are not stuck behind stale SW cache. */

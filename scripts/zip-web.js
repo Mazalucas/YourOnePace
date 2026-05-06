@@ -33,7 +33,7 @@ const entries = [
   'data.js',
   'manifest.json',
   'sw.js',
-  'icons/pwa-512.png'
+  'icons/OnePiece-pwa-logo.png'
 ];
 
 for (const rel of entries) {

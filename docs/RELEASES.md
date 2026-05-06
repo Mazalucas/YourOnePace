@@ -66,6 +66,6 @@ There is no GitHub-style “installer download” for iOS comparable to Windows 
 
 ## App and installer icon
 
-The desktop and PWA icons use `build/source-icon.png` as the single source. **electron-builder** converts this PNG to the platform formats it needs (for example `.icns` / installer graphics on Windows) during each desktop build—no separate manual `.ico` step is required unless you change tooling.
+The desktop and PWA icons use `icons/OnePiece-pwa-logo.png` as the single source. **electron-builder** converts this PNG to the platform formats it needs on macOS (for example `.icns`), and `scripts/make-win-icon.js` builds `build/icon.ico` from the same PNG for Windows—no separate manual `.ico` step is required unless you change tooling.
 
 That artwork resembles official *One Piece* branding; it may be protected by copyright or trademark. Using it for public releases or store listings is your responsibility; consider original artwork for lower legal risk.

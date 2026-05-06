@@ -9,13 +9,13 @@
   "theme_color": "#0a0a0f",
   "icons": [
     {
-      "src": "icons/pwa-512.png",
+      "src": "icons/OnePiece-pwa-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/pwa-512.png",
+      "src": "icons/OnePiece-pwa-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

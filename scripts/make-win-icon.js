@@ -4,7 +4,7 @@ const sharp = require('sharp');
 const pngToIco = require('png-to-ico');
 
 const root = path.join(__dirname, '..');
-const src = path.join(root, 'build', 'source-icon.png');
+const src = path.join(root, 'icons', 'OnePiece-pwa-logo.png');
 const out = path.join(root, 'build', 'icon.ico');
 
 (async () => {

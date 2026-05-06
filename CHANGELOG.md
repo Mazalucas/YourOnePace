@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.24] - 2026-05-06
+
+### Changed
+
+- **Unified app icon source**: use `icons/OnePiece-pwa-logo.png` for PWA manifest, Apple touch icon, service worker precache, web zip bundle, macOS Electron packaging, and Windows `.ico` generation (`scripts/make-win-icon.js`).
+- **Service worker**: bump precache cache name to invalidate clients after the icon path change.
+- **Brand guidelines & docs**: update downloadable asset link and `docs/RELEASES.md` to describe the new single-source icon workflow.
+
 ## [1.0.23] - 2026-05-06
 
 ### Changed

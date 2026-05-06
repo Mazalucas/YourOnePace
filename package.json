@@ -1,7 +1,7 @@
 {
   "name": "your-one-pace",
   "productName": "Your One Pace",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Track your journey through the One Pace fan edit of One Piece",
   "main": "electron/main.js",
   "author": "",
@@ -38,7 +38,7 @@
         "dmg",
         "zip"
       ],
-      "icon": "build/source-icon.png"
+      "icon": "icons/OnePiece-pwa-logo.png"
     },
     "win": {
       "target": [
