@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.22] - 2026-05-06
+
+### Added
+
+- **Brand guidelines page** (`brand-guidelines.html` + `brand-guidelines.css`) covering logo system, color palette, typography, UI principles, do/don't rules, and downloadable brand assets.
+
+### Changed
+
+- **Top navigation** now includes a direct link to the brand guidelines page.
+
 ## [1.0.21] - 2026-05-05
 
 ### Added
