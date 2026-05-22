@@ -1,11 +1,12 @@
 // Bump this when you change precached static assets so clients drop old caches.
-const CACHE_NAME = 'your-one-pace-v5';
+const CACHE_NAME = 'your-one-pace-v6';
 const PRECACHE_URLS = [
   './',
   './index.html',
   './index.css',
   './app.js',
   './data.js',
+  './episodeAnimeMap.js',
   './manifest.json',
   './icons/OnePiece-pwa-logo.png'
 ];
@@ -15,6 +16,7 @@ function useNetworkFirst(url) {
   const p = url.pathname;
   return (
     p.endsWith('data.js') ||
+    p.endsWith('episodeAnimeMap.js') ||
     p.endsWith('app.js') ||
     p.endsWith('index.html') ||
     p.endsWith('/') ||

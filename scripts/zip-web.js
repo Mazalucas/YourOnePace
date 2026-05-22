@@ -31,6 +31,7 @@ const entries = [
   'index.css',
   'app.js',
   'data.js',
+  'episodeAnimeMap.js',
   'manifest.json',
   'sw.js',
   'icons/OnePiece-pwa-logo.png'

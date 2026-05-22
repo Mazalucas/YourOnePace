@@ -250,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: nameClean,
                 status: status,
                 chapters: row[2].replace(/"/g, ''),
+                animeEpisodes: row[4] ? row[4].replace(/"/g, '').trim() : '',
                 episodesCount: parseInt(row[7]) || 0,
                 saved: parseInt(row[10].replace(/,/g, '')) || 0,
                 savedPct: row[11],
@@ -527,6 +528,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${base}#item=${idx}`;
     }
 
+    function getAnimeEpisodeLabel(arcName, episodeNumber) {
+        const map = (window.EPISODE_ANIME_MAP || {})[arcName];
+        const raw = map && map[episodeNumber];
+        if (!raw) return '';
+        return `Ep ${raw} (anime)`;
+    }
+
     async function fetchPixeldrainListMeta(listId) {
         if (pixeldrainListApiCache.has(listId)) {
             return pixeldrainListApiCache.get(listId);
@@ -593,6 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${Array.from({ length: arc.episodesCount }, (_, i) => {
             const epNo = i + 1;
             const isWatched = watchedList.includes(epNo);
+            const animeLabel = getAnimeEpisodeLabel(arc.name, epNo);
             const pdUrl = pdListBaseUrl
                 ? buildPixeldrainListEpisodeUrl(pdListBaseUrl, epNo)
                 : '';
@@ -604,6 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button type="button" class="episode-item-toggle" aria-pressed="${isWatched ? 'true' : 'false'}" aria-label="Mark episode ${epNo} as watched or unwatched">
                                 <div class="ep-checkbox">${isWatched ? '✓' : ''}</div>
                                 <span class="ep-label">Episode ${epNo}</span>
+                                ${animeLabel ? `<span class="ep-anime-label">${animeLabel}</span>` : ''}
                                 </button>
                                 ${openRow}
                             </div>
@@ -618,6 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="modal-meta">
                 <span><strong>Status:</strong> ${arc.status}</span>
                 <span><strong>Manga:</strong> Chapters ${arc.chapters}</span>
+                ${arc.animeEpisodes ? `<span><strong>Anime:</strong> Episodes ${arc.animeEpisodes}</span>` : ''}
                 <span><strong>Quality:</strong> ${arc.resolution}</span>
             </div>
             <p style="margin-bottom: 1.5rem; opacity: 0.8;">${details.description || 'Continue the Straw Hat adventure.'}</p>

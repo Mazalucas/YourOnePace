@@ -34,7 +34,7 @@ jobs:
       - name: Stage static site and inject app version from package.json
         run: |
           mkdir -p _site
-          cp index.html index.css app.js data.js manifest.json sw.js _site/
+          cp index.html index.css app.js data.js episodeAnimeMap.js manifest.json sw.js _site/
           cp -r icons _site/
           touch _site/.nojekyll
           APP_VERSION=$(node -p "require('./package.json').version")

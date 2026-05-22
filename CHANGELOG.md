@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.25] - 2026-05-06
+
+### Added
+
+- **Anime episode mapping** (`episodeAnimeMap.js`): per-arc labels showing which original anime episode(s) each One Pace episode covers, sourced from [one-pace-metadata](https://github.com/ladyisatis/one-pace-metadata).
+- **Regeneration script** `scripts/fetch_episode_anime_map.py` to rebuild the map from upstream metadata.
+
+### Changed
+
+- **Arc modal**: episode checklist shows optional `Ep N (anime)` hints; arc header meta includes anime episode range from timeline CSV when present.
+- **Deploy bundles**: GitHub Pages workflow, web zip, Electron `files`, service worker precache (`v6`), and network-first routing include `episodeAnimeMap.js`.
+
 ## [1.0.24] - 2026-05-06
 
 ### Changed
