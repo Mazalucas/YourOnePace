@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.26] - 2026-08-06
+
+### Changed
+
+- **Arc timeline sync** with [one-pace-metadata](https://github.com/ladyisatis/one-pace-metadata): Wano +5 episodes (61 total), Egghead +1 (21 total).
+- **WIP badges removed** from Romance Dawn, Syrup Village, Arlong Park, and Skypiea (completed in official metadata).
+- **Episode anime map** regenerated (471 episode mappings).
+- **Service worker**: bump precache cache name to `v7`.
+
 ## [1.0.25] - 2026-05-06
 
 ### Added
