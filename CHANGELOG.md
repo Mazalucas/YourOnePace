@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.27] - 2026-10-05
+
+### Changed
+
+- **Egghead checklist** now labels each Pace episode with Crunchyroll/anime numbers *and* manga chapters, so filenames like `[1087-1088] Egghead 18` are not mistaken for Crunchyroll 1087–1088 (that file is actually Crunchyroll 1121–1122).
+- **Arc timeline sync** with [one-pace-metadata](https://github.com/ladyisatis/one-pace-metadata): Egghead +1 (22 total, Crunchyroll 1129–1130), Wano +1 (62 total, Crunchyroll 1032–1034). Post-Enies Lobby remakes now list 6 Pace episodes (Pixeldrain 01–06; episode 04 covers manga 436–437 / Crunchyroll 321–322). Enies Lobby 01 coverage updated after remake.
+- **Watch links** regenerated from onepace.net: Egghead specials unbundled, plus new Pixeldrain qualities for Drum Island, Fishman Island, and Post-Enies Lobby remakes.
+- **Hybrid watch guides**: Wano Pace 1–62 then original 1035–1085; Egghead Pace 1–22 then original 1131–.
+- **Service worker**: bump precache cache name to `v8`.
+
 ## [1.0.26] - 2026-08-06
 
 ### Changed

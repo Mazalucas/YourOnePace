@@ -14,6 +14,7 @@ from __future__ import annotations
 import html as html_lib
 import json
 import re
+import ssl
 import sys
 import urllib.request
 from pathlib import Path
@@ -23,7 +24,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 OUT_PATH = REPO_ROOT / "data.js"
 
 # Timeline uses "Arabasta"; official site uses "Alabasta".
-APP_ALIASES = {"Alabasta": "Arabasta"}
+APP_ALIASES = {
+    "Alabasta": "Arabasta",
+    "If You Could Go Anywhere... The Adventures of the Straw Hats": (
+        "The Adventures of the Straw Hats"
+    ),
+}
 
 DESCS = {
     "Romance Dawn": (
@@ -52,6 +58,12 @@ DESCS = {
     ),
 }
 
+SEGMENT_RE = re.compile(
+    r'<li[^>]*id="([^"]+)"[^>]*data-timeline-segment="([^"]+)"[^>]*>'
+)
+TRACK_START_RE = re.compile(r'<span id="[^"]*" class="text-lg/6 font-semibold">')
+PIXELDRAIN_RE = re.compile(r'href="(https://pixeldrain\.net/l/[A-Za-z0-9]+)"')
+
 
 def load_html(source: str | None) -> str:
     if source:
@@ -60,15 +72,27 @@ def load_html(source: str | None) -> str:
         WATCH_URL,
         headers={"User-Agent": "YourOnePace-link-sync/1.0"},
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return resp.read().decode("utf-8", errors="replace")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return resp.read().decode("utf-8", errors="replace")
+    except ssl.SSLCertVerificationError:
+        ctx = ssl._create_unverified_context()
+        with urllib.request.urlopen(req, timeout=60, context=ctx) as resp:
+            return resp.read().decode("utf-8", errors="replace")
 
 
-def flex1_plain_text(section: str, t: int) -> str:
-    """t = index of '<span class=\"flex-1\">'."""
-    i = t + len('<span class="flex-1">')
+def inner_text(fragment: str) -> str:
+    return re.sub(r"\s+", " ", html_lib.unescape(re.sub(r"<[^>]+>", "", fragment))).strip()
+
+
+def extract_balanced_span(section: str, open_at: int) -> tuple[str, int]:
+    """Return inner HTML and index after the matching closing </span>."""
+    i = section.find(">", open_at)
+    if i == -1:
+        return "", len(section)
+    i += 1
+    start = i
     depth = 1
-    parts: list[str] = []
     while i < len(section) and depth > 0:
         if section.startswith("<span", i):
             depth += 1
@@ -76,66 +100,48 @@ def flex1_plain_text(section: str, t: int) -> str:
             i = gt + 1 if gt != -1 else len(section)
         elif section.startswith("</span>", i):
             depth -= 1
+            if depth == 0:
+                return section[start:i], i + len("</span>")
             i += 7
-        elif section[i] == "<":
-            gt = section.find(">", i)
-            i = gt + 1 if gt != -1 else len(section)
         else:
-            j = section.find("<", i)
-            chunk = section[i:j] if j != -1 else section[i:]
-            parts.append(chunk)
-            i = j if j != -1 else len(section)
-    s = "".join(parts).replace("<!-- -->", " ")
-    return re.sub(r"\s+", " ", s).strip()
+            i += 1
+    return section[start:], len(section)
+
+
+def extract_title(section: str) -> str:
+    m = re.search(r"<h2[^>]*>\s*<a[^>]*>(.*?)</a>", section, re.S)
+    if m:
+        return inner_text(m.group(1))
+    m = re.search(r"<h2[^>]*>(.*?)</h2>", section, re.S)
+    return inner_text(m.group(1)) if m else ""
 
 
 def extract_links(section: str) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
-    current_track = "Release"
     pos = 0
+    current_track = "Release"
     while pos < len(section):
-        t = section.find('<span class="flex-1">', pos)
-        l = section.find('href="https://pixeldrain', pos)
-        if l == -1:
-            l = section.find("href='https://pixeldrain", pos)
-        if t == -1:
-            t = len(section) + 1
-        if l == -1:
-            l = len(section) + 1
-        if t >= len(section) and l >= len(section):
+        t = TRACK_START_RE.search(section, pos)
+        l = PIXELDRAIN_RE.search(section, pos)
+        t_at = t.start() if t else len(section) + 1
+        l_at = l.start() if l else len(section) + 1
+        if t_at >= len(section) and l_at >= len(section):
             break
-        if t < l:
-            current_track = flex1_plain_text(section, t)
-            i = t + len('<span class="flex-1">')
-            depth = 1
-            while i < len(section) and depth > 0:
-                if section.startswith("<span", i):
-                    depth += 1
-                    i = section.find(">", i) + 1
-                elif section.startswith("</span>", i):
-                    depth -= 1
-                    i += 7
-                else:
-                    i += 1
-            pos = i
+        if t_at < l_at:
+            inner, end = extract_balanced_span(section, t_at)
+            track = inner_text(inner)
+            if track:
+                current_track = track
+            pos = end
             continue
-        href_start = section.find("href=", l)
-        q = section[href_start + 5]
-        url_start = href_start + 6
-        url_end = section.find(q, url_start)
-        url = section[url_start:url_end]
-        gt = section.find(">", url_end)
-        sub = section[gt + 1 :]
-        close = sub.find("</a>")
-        inner = sub[:close]
-        rm = re.search(r'tabular-nums">([^<]*\d+p)\s*</span>', inner)
-        res = rm.group(1).strip() if rm else ""
-        if not res:
-            rm2 = re.search(r"(\d{3,4}p)", inner)
-            res = rm2.group(1) if rm2 else ""
+        url = l.group(1)
+        after = section[l.end() : l.end() + 500]
+        rm = re.search(r">(\d{3,4}p)<", after)
+        res = rm.group(1) if rm else ""
         label = f"Pixeldrain ({res})" if res else "Pixeldrain"
         out.append({"type": f"{current_track} — {label}", "url": url})
-        pos = l + len(url) + 20
+        pos = l.end()
+
     seen: set[str] = set()
     deduped: list[dict[str, str]] = []
     for item in out:
@@ -147,18 +153,21 @@ def extract_links(section: str) -> list[dict[str, str]]:
 
 
 def build_episode_data(html: str) -> tuple[dict[str, list[dict[str, str]]], list[str]]:
-    h2_pat = re.compile(r'<h2[^>]*>\s*<a href="#([^"]+)">([^<]+)</a>\s*</h2>')
-    matches = list(h2_pat.finditer(html))
+    matches = list(SEGMENT_RE.finditer(html))
     ordered_keys: list[str] = []
     result: dict[str, list[dict[str, str]]] = {}
     for i, m in enumerate(matches):
-        raw_title = m.group(2).strip()
-        title = html_lib.unescape(raw_title)
-        key = APP_ALIASES.get(title, title)
-        ordered_keys.append(key)
-        start = m.end()
+        start = m.start()
         end = matches[i + 1].start() if i + 1 < len(matches) else len(html)
-        result[key] = extract_links(html[start:end])
+        section = html[start:end]
+        raw_title = extract_title(section)
+        if not raw_title or raw_title.startswith("Special:"):
+            continue
+        key = APP_ALIASES.get(raw_title, raw_title)
+        if key in result:
+            continue
+        ordered_keys.append(key)
+        result[key] = extract_links(section)
     return result, ordered_keys
 
 

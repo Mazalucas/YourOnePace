@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 15,Long Ring Long Land (TBR),304 - 321,19,"207 - 219, 226 - 228",14,213 - 215,7,294,154,140,47.62%,"Jpn,Eng",Eng,Eng,720p,Pace
 16,Water Seven,322 - 374,53,229 - 263,37,,20,777,549,228,29.34%,"Jpn,Eng","Eng,Fr ",Fr,1080p,Pace
 17,Enies Lobby,375 - 430,56,263 - 312,45,"291 - 292, 303",25,945,588,357,37.78%,"Jpn,Eng (23-25)","Eng, Es , Fr ",Fr,"720p,1080p",Pace
-18,Post-Enies Lobby (TBR),431 - 441,11,313 - 325,11,317 - 318,5,236,133,103,43.64%,Jpn,Eng,Eng,720p,Pace
+18,Post-Enies Lobby (TBR),431 - 441,11,313 - 325,11,317 - 318,6,236,133,103,43.64%,Jpn,Eng,Eng,720p,Pace
 19,Thriller Bark (TBR),442 - 489,48,337 - 381,45,,22,967,484,483,49.95%,Jpn,"Eng, Es","Eng, Es",720p,Pace
 20,Sabaody Archipelago (TBR),490 - 513,24,385 - 405,21,,11,451,285,166,36.81%,Jpn,"Eng, Es ",Es,720p,Pace
 21,Amazon Lily (TBR),514 - 524,11,408 - 421,14,,5,301,132,169,56.15%,Jpn,"Eng, Es , Fr ","Es, Fr",720p,Pace
@@ -190,8 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
 29,Zou (TBR),801 - 822,22,751 - 776,28,775,10,602,275,327,54.32%,Jpn,"Eng,Es, Fr ",Fr,720p,Pace
 30,Whole Cake Island,823 - 902,80,777 - 877,95,780 - 782,39,2042,1213,829,40.60%,Jpn,"Eng,Es, Fr ",Fr,720p,Pace
 31,Reverie,903 - 908,6,878 - 889,12,,3,258,94,164,63.57%,"Jpn,Eng","Eng,Es,Fr",,1080p,Pace
-32,Wano (WIP),909 - 1057,149,890 - 1085,136,"895-896, 1029 - 1030, 1084",61,2992,1926,1066,35.63%,"Jpn,Eng (1-3, 31-)","Eng,Es ,Fr,Ar, De (44-)","Es,Fr, Ar",1080p,Pace Episodes 1-61 then Original Episodes 1033 - 1085
-33,Egghead (WIP),1058 - 1125,68,1086 - 1155,40,,21,840,623,217,25.83%,"Jpn, Eng (1-12, 17-18)","Eng,Fr,De (3-)","De (1,2)",1080p,Pace Episodes 1-21 then Original Episodes 1129-`;
+32,Wano (WIP),909 - 1057,149,890 - 1085,136,"895-896, 1029 - 1030, 1084",62,2992,1926,1066,35.63%,"Jpn,Eng (1-3, 31-)","Eng,Es ,Fr,Ar, De (44-)","Es,Fr, Ar",1080p,Pace Episodes 1-62 then Original Episodes 1035 - 1085
+33,Egghead (WIP),1058 - 1125,68,1086 - 1155,45,,22,840,623,217,25.83%,"Jpn, Eng (1-12, 17-18)","Eng,Fr,De (3-)","De (1,2)",1080p,Pace Episodes 1-22 then Original Episodes 1131-`;
 
             allArcs = parseCSV(csvData);
             renderJourney();
@@ -528,11 +528,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${base}#item=${idx}`;
     }
 
-    function getAnimeEpisodeLabel(arcName, episodeNumber) {
+    function getEpisodeCoverage(arcName, episodeNumber) {
         const map = (window.EPISODE_ANIME_MAP || {})[arcName];
         const raw = map && map[episodeNumber];
-        if (!raw) return '';
-        return `Ep ${raw} (anime)`;
+        if (!raw) return { anime: '', manga: '' };
+        if (typeof raw === 'string') {
+            return { anime: raw, manga: '' };
+        }
+        return {
+            anime: raw.anime || '',
+            manga: raw.manga || ''
+        };
+    }
+
+    function coverageLabelHtml(arcName, episodeNumber) {
+        const { anime, manga } = getEpisodeCoverage(arcName, episodeNumber);
+        const parts = [];
+        if (anime) {
+            parts.push(`<span class="ep-anime-label">Crunchyroll ${anime}</span>`);
+        }
+        if (manga) {
+            parts.push(`<span class="ep-manga-label">Manga ${manga}</span>`);
+        }
+        return parts.join('');
     }
 
     async function fetchPixeldrainListMeta(listId) {
@@ -595,13 +613,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const episodesHtml = `
             <div class="links-section">
                 <h3>Episode Checklist</h3>
-                <p class="ep-pd-checklist-hint">“Open” goes to the episode in Pixeldrain, using the 720p list when this arc has one; otherwise the first Pixeldrain link above.</p>
+                <p class="ep-pd-checklist-hint">“Open” goes to the episode in Pixeldrain, using the 720p list when this arc has one; otherwise the first Pixeldrain link above. Crunchyroll numbers are original anime episodes. One Pace filenames use manga chapters, which can look similar.</p>
                 ${pdMismatchHtml}
                 <div class="episode-grid">
                     ${Array.from({ length: arc.episodesCount }, (_, i) => {
             const epNo = i + 1;
             const isWatched = watchedList.includes(epNo);
-            const animeLabel = getAnimeEpisodeLabel(arc.name, epNo);
+            const coverageHtml = coverageLabelHtml(arc.name, epNo);
             const pdUrl = pdListBaseUrl
                 ? buildPixeldrainListEpisodeUrl(pdListBaseUrl, epNo)
                 : '';
@@ -613,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button type="button" class="episode-item-toggle" aria-pressed="${isWatched ? 'true' : 'false'}" aria-label="Mark episode ${epNo} as watched or unwatched">
                                 <div class="ep-checkbox">${isWatched ? '✓' : ''}</div>
                                 <span class="ep-label">Episode ${epNo}</span>
-                                ${animeLabel ? `<span class="ep-anime-label">${animeLabel}</span>` : ''}
+                                ${coverageHtml}
                                 </button>
                                 ${openRow}
                             </div>

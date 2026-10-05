@@ -134,8 +134,12 @@ const episodeData = {
     },
     "Drum Island": {
         links: [
+            { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/M8KDWY5c" },
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/4juJksu7" },
+            { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/dvriV6Z9" },
+            { type: "English Dub — Pixeldrain (480p)", url: "https://pixeldrain.net/l/64MMCC6u" },
             { type: "English Dub — Pixeldrain (720p)", url: "https://pixeldrain.net/l/uHcgEuGE" },
+            { type: "English Dub — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/jg7Lja3K" },
         ]
     },
     "Arabasta": {
@@ -159,15 +163,15 @@ const episodeData = {
             { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/1bDwFCf9" },
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/q4HPAiL4" },
             { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/arhxWEdj" },
-            { type: "English Subtitles, Alternate Cut (G-8) — Pixeldrain (480p)", url: "https://pixeldrain.net/l/rmFNCgGt" },
-            { type: "English Subtitles, Alternate Cut (G-8) — Pixeldrain (720p)", url: "https://pixeldrain.net/l/9u9rcZLR" },
-            { type: "English Subtitles, Alternate Cut (G-8) — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/3mJLhyXC" },
+            { type: "English Subtitles, G-8 Alternate Cut — Pixeldrain (480p)", url: "https://pixeldrain.net/l/rmFNCgGt" },
+            { type: "English Subtitles, G-8 Alternate Cut — Pixeldrain (720p)", url: "https://pixeldrain.net/l/9u9rcZLR" },
+            { type: "English Subtitles, G-8 Alternate Cut — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/3mJLhyXC" },
             { type: "English Dub — Pixeldrain (480p)", url: "https://pixeldrain.net/l/fs2XfKd9" },
             { type: "English Dub — Pixeldrain (720p)", url: "https://pixeldrain.net/l/vT96zd5x" },
             { type: "English Dub — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/TVGUu2hh" },
-            { type: "English Dub, Alternate Cut (G-8) — Pixeldrain (480p)", url: "https://pixeldrain.net/l/5U3B9n45" },
-            { type: "English Dub, Alternate Cut (G-8) — Pixeldrain (720p)", url: "https://pixeldrain.net/l/kiCsu2W3" },
-            { type: "English Dub, Alternate Cut (G-8) — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/27rF4SrD" },
+            { type: "English Dub, G-8 Alternate Cut — Pixeldrain (480p)", url: "https://pixeldrain.net/l/5U3B9n45" },
+            { type: "English Dub, G-8 Alternate Cut — Pixeldrain (720p)", url: "https://pixeldrain.net/l/kiCsu2W3" },
+            { type: "English Dub, G-8 Alternate Cut — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/27rF4SrD" },
         ]
     },
     "Long Ring Long Land": {
@@ -198,7 +202,12 @@ const episodeData = {
     },
     "Post-Enies Lobby": {
         links: [
+            { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/QpDk75eZ" },
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/upyN5vVk" },
+            { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/o54ysUTC" },
+            { type: "English Dub — Pixeldrain (480p)", url: "https://pixeldrain.net/l/u9TNTcjZ" },
+            { type: "English Dub — Pixeldrain (720p)", url: "https://pixeldrain.net/l/6b7LNEDY" },
+            { type: "English Dub — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/FfRgXmy2" },
         ]
     },
     "Thriller Bark": {
@@ -221,7 +230,7 @@ const episodeData = {
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/y5ywnHdF" },
         ]
     },
-    "If You Could Go Anywhere... The Adventures of the Straw Hats": {
+    "The Adventures of the Straw Hats": {
         links: [
             { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/QWXq5X3x" },
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/cnjWovN9" },
@@ -248,7 +257,12 @@ const episodeData = {
     },
     "Fishman Island": {
         links: [
+            { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/z7AkpuUm" },
             { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/o6ZzNwzp" },
+            { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/qXbhGcY2" },
+            { type: "English Dub — Pixeldrain (480p)", url: "https://pixeldrain.net/l/hSZx1oCu" },
+            { type: "English Dub — Pixeldrain (720p)", url: "https://pixeldrain.net/l/TsZm6qS2" },
+            { type: "English Dub — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/5Z489ko1" },
         ]
     },
     "Punk Hazard": {
@@ -311,12 +325,6 @@ const episodeData = {
             { type: "English Dub, Extended Cut — Pixeldrain (480p)", url: "https://pixeldrain.net/l/FGfHFhsy" },
             { type: "English Dub, Extended Cut — Pixeldrain (720p)", url: "https://pixeldrain.net/l/5AE6HNCR" },
             { type: "English Dub, Extended Cut — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/BiCB3xar" },
-            { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/JGkNAa1V" },
-            { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/cTvXTid9" },
-            { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/FA11f6u2" },
-            { type: "English Subtitles — Pixeldrain (480p)", url: "https://pixeldrain.net/l/YTERtTLz" },
-            { type: "English Subtitles — Pixeldrain (720p)", url: "https://pixeldrain.net/l/y3pdBczx" },
-            { type: "English Subtitles — Pixeldrain (1080p)", url: "https://pixeldrain.net/l/Fo4iTm7F" },
         ]
     },
 };
