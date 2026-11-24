@@ -15,12 +15,42 @@ build/icon.ico
 
 # Environment variables
 .env
+.env.local
+.env.*.local
+*.credentials
 
-# Cursor / local IDE & AI tool configs (not part of the app; keep repo public-clean)
-.cursor/
+# Task Master / Gemini locales (no son el framework DT)
 .gemini/
 .taskmaster/
 GEMINI.md
+
+# El DT — solo estado de esta máquina (el resto del framework sí va al repo)
+vitals/workspace.yaml
+vitals/ops/session.yaml
+vitals/ops/dt-upstream-state.md
+vitals/ops/canonical-checkout.yaml
+vitals/ops/collaboration.local.yaml
+vitals/ops/context-profile.yaml
+.cursor/settings.json
+.cursor/rules/99-perfil-local.mdc
+.claude/rules/99-perfil-local.md
+.agents/rules/99-perfil-local.md
+vitals/config/drive-context.yaml
+vitals/config/gmail-context.yaml
+vitals/config/calendar-context.yaml
+vitals/config/google-apps.yaml
+vitals/work/inbox/**/draft-*
+vitals/work/audits/*
+!vitals/work/audits/README.md
+.agents/product-marketing.md
+.agents/design-context.md
+.agents/design-system/
+.claude/design-context.md
+.claude/product-marketing.md
+output/
+tools/**/node_modules/
+tools/**/out/
+.impeccable/hook.cache.json
 
 # Editor directories and files
 .idea

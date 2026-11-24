@@ -1,0 +1,51 @@
+# AGENTS.md — puerta de entrada para la IA
+
+Memoria del equipo de **El DT**. Reglas operativas: **`.cursor/rules/`** (Cursor) · espejos en `.claude/rules/`, `.agents/rules/` (Antigravity).
+
+## Índice rápido
+
+| Pregunta | Dónde |
+|----------|--------|
+| Ritual Git / equipo | `docs/00_overview/memoria-equipo-mecanismos-dt.md` (`DOC-OV-004`) |
+| Sesión local | `vitals/ops/session.yaml` — sin `operator.id` → **`/yo`** |
+| Qué puedo hacer | **`/ayuda`** — un comando o un especialista, según lo que necesitás |
+| Instalar algo de afuera | Skill `dt-revisar-instalacion` — veredicto antes de instalar (`DOC-GUIDE-017`) |
+| Cuánto contexto | `/dt-config` — perfil local, no va a Git |
+| Commands | `vitals/config/commands-meta.yaml` |
+| Reglas y subagentes | `.cursor/rules/` · [README — 24 especialistas](README.md#catálogo-de-los-24-especialistas) |
+| Stack web | `docs/03_reference/web-stack-default.md` · regla `08-stack-web-default` |
+| Reuse / números | reglas `15-engineering-reuse`, `16-numeric-grounding` |
+| Docs IA | `docs/99_meta/protocolo-documentacion-ia.md` · regla `02-documentacion` |
+| Pulso / specs DT | `vitals/INDEX.md` |
+| Cumplimiento legal de una app | `/auditoria-legal` · `docs/03_reference/auditoria-legal.md` (`DOC-REF-012`) |
+| Captura de conocimiento | `/ordenar` · `docs/02_guides/ordenar-captura-conocimiento.md` (`DOC-GUIDE-016`) |
+| Google Drive / Gmail / Calendar (opcional) | `docs/02_guides/google-contexto-setup.md` · `/drive` `/gmail` `/calendar` |
+| Skills en todos los IDE | `/skills` · `vitals/specs/skill-standard.md` · canon `.cursor/skills/` |
+| Atelier / marketing táctico | `.cursor/skills/atelier/` · guías `design/*/GUIDE.md`, `marketing/*/GUIDE.md` |
+| Paridad multi-IDE | `vitals/config/ide-targets.yaml` · `./scripts/sync-ide.sh` |
+| Agentes miembro e inbox entre agentes | `vitals/specs/agent-inbox.md` · plantilla `vitals/relay/inbox-message-template.md` |
+
+## Si sos un agente autónomo
+
+Leé **`vitals/specs/agent-inbox.md`** y usá **`./scripts/dt-agent.sh`** (`login`, `inbox`, `sync`). Publicá el inbox con `sync`, no con `/guardar`. Los subagentes de un chat no se dan de alta en el roster: `vitals/relay/handoff-template.md`.
+
+## Ritual
+
+Primera vez: `/bienvenida` → `/yo` → trabajar → `/guardar`  
+Jornada: `/actualizar` → `/yo` → trabajar → `/guardar` (`/actualizar` no crea sesión)
+
+## Post-clone — primera conversación (IA)
+
+Si **no** existe `vitals/ops/session.yaml` (o falta `operator.id`) y el operador acaba de clonar o abre el repo por primera vez:
+
+1. **Arrancar la charla de bienvenida** — skill `dt-setup` → `.cursor/skills/dt-setup/references/welcome-message.md` (equivalente a `/bienvenida`): un paso por mensaje, esperando la respuesta.
+2. Ejecutar el checklist read-only del skill; si falta estructura → el primer mensaje pide **`/setup`** (M0-B).
+3. **No** escribir en el repo ni proponer commit hasta **`/yo`**.
+
+Si el operador escribe **`/bienvenida`**, seguir el mismo flujo (modo first-run de `dt-setup`).
+
+## Mantenimiento del framework
+
+`/setup` (repair drift) · `/actualizar-dt` (upstream) · verificación: `./scripts/dt-doctor.sh`
+
+No editar reglas/skills generados a mano en `.claude/`, `.agents/` (espejos) — fuentes en `vitals/specs/rule-bodies/` y `.cursor/skills/`.

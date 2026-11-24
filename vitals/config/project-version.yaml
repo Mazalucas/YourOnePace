@@ -1,0 +1,15 @@
+# Your One Pace — consumer. La versión de la app vive en package.json.
+# No sincronizar framework_version del DT. Spec: vitals/specs/project-version.md
+
+version: 1
+initialized: true
+initial_semver: "1.0.27"
+auto_bump: classify
+tag_releases: true
+
+sync_paths:
+  - path: README.md
+    type: readme_badge
+  - path: package.json
+    type: json
+    field: version

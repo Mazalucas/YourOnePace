@@ -1,0 +1,37 @@
+# Vitals — índice de recuperación (IA y humanos)
+
+Usá este archivo para decidir **qué leer primero** y no inflar el contexto.
+
+| Pregunta | Archivo |
+|----------|---------|
+| ¿Cuál es el último pulso / estado reciente? | [pulse/current.md](pulse/current.md) |
+| ¿Cómo escribir pulse, compactar, presupuesto de contexto? | [specs/protocolo-vitals-ia.md](specs/protocolo-vitals-ia.md) |
+| ¿Memoria sugerida (inbox / accepted / opt-in)? | [memory/README.md](memory/README.md) y [specs/protocolo-memoria-dt.md](specs/protocolo-memoria-dt.md) |
+| ¿Precedencia fast-lane vs no-cómplice vs seguridad? | [specs/precedence.md](specs/precedence.md) |
+| ¿Multi-repo / a qué proyecto aplica un pedido de Git? | [specs/multi-project.md](specs/multi-project.md) y [workspace.yaml.example](workspace.yaml.example) |
+| ¿Cuándo recomendar skills / commands al usuario? | [specs/proactive-tooling.md](specs/proactive-tooling.md) |
+| ¿Atelier / design skills / anti-slop? | [specs/design-skills-protocol.md](specs/design-skills-protocol.md) · `/atelier` · `DOC-DESIGN-001` |
+| ¿Referencias OpenClaw / ecosistema (diseño)? | [specs/references.md](specs/references.md) |
+| ¿Plantilla de handoff entre agentes? | [relay/handoff-template.md](relay/handoff-template.md) |
+| ¿Agente autónomo: alta en roster, inbox, mensajes? | [specs/agent-inbox.md](specs/agent-inbox.md) · [relay/inbox-message-template.md](relay/inbox-message-template.md) |
+| ¿Reglas sobre secretos en vitals? | [charter/no-secrets.md](charter/no-secrets.md) |
+| ¿Sesión local vs roster / ritual Git? | [../docs/00_overview/memoria-equipo-mecanismos-dt.md](../docs/00_overview/memoria-equipo-mecanismos-dt.md) (`DOC-OV-004`) |
+| ¿Commands y taglines (YAML canónico)? | [config/commands-meta.yaml](config/commands-meta.yaml) |
+| ¿Quién trabaja en esta máquina? | `ops/session.yaml` (local; usar `/yo`) |
+| ¿Equipo en Git? | [config/roster.yaml](config/roster.yaml) (vacío al clonar) |
+| ¿Google Drive / Gmail / Calendar? | `/drive` `/gmail` `/calendar` · marketplace / Store / Connectors · [google-apps-mcp.md](specs/google-apps-mcp.md) · `DOC-GUIDE-009` · `DOC-DEC-006` |
+| ¿Skills iguales en todos los IDE? | `/skills` · [skill-standard.md](specs/skill-standard.md) · canon `.cursor/skills/` |
+| ¿Roles del proyecto? | [config/roles.yaml](config/roles.yaml) (`roles: []` = texto libre en /yo) |
+| ¿Forma de session.yaml? | [ops/README.md](ops/README.md) · DOC-REF-001 |
+| ¿Postura personal o team? | [config/collaboration.yaml.example](config/collaboration.yaml.example) · la escribe `/yo` en `config/collaboration.yaml` · [precedence.md](specs/precedence.md) |
+| ¿Quién puede publicar al repo oficial del DT? | [specs/canonical-publish.md](specs/canonical-publish.md) · `/oficial` |
+| ¿Colaboración Git y zonas? | [../docs/06_operations/git-colaboracion-dt.md](../docs/06_operations/git-colaboracion-dt.md) (`DOC-OPS-001`) |
+| ¿Capturar archivos/dumps y ordenar conocimiento? | `/ordenar` · [../docs/02_guides/ordenar-captura-conocimiento.md](../docs/02_guides/ordenar-captura-conocimiento.md) (`DOC-GUIDE-016`) · [work/knowledge/](work/knowledge/) |
+| ¿Estado de seguridad / riesgos aceptados? | [security/baseline.yaml](security/baseline.yaml) · `/hack` · `DOC-REF-010` (informes en `work/audits/`, gitignoreados) |
+| ¿Cumplimiento legal de una app (RGPD, cookies, cobros, menores)? | `/auditoria-legal` · [../docs/03_reference/auditoria-legal.md](../docs/03_reference/auditoria-legal.md) (`DOC-REF-012`) · informes en `work/audits/`, gitignoreados |
+
+**Ritual de jornada:** `/actualizar` → `/yo` → trabajar → `/guardar` (ver `AGENTS.md`).
+
+**Scripts:** [../scripts/README.md](../scripts/README.md) — `sync-commands-from-meta.sh`, `sync-skills-parity.sh`.
+
+**Regla de oro:** en chat, citar solo `pulse_id` y ruta al entry; no pegar entries completos salvo que el usuario lo pida.

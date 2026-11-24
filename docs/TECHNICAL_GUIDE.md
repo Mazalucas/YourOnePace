@@ -1,3 +1,20 @@
+---
+id: DOC-GUIDE-011
+title: "Technical Guide: Your One Pace"
+type: reference
+status: canonical
+owner: your-one-pace
+created: 2026-04-18
+updated: 2026-11-24
+tags:
+  - your-one-pace
+  - technical
+summary: Stack, persistencia y estructura de la app Your One Pace.
+related: []
+priority: medium
+source_of_truth: true
+---
+
 # Technical Guide: Your One Pace
 
 ## Technology Stack

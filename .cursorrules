@@ -1,0 +1,7 @@
+# Director Técnico (DT) — Cursor
+
+Reglas del agente: **`.cursor/rules/*.mdc`**. Entrada IA: **`AGENTS.md`**. Vitals: **`vitals/INDEX.md`**.
+
+Primera vez: `/bienvenida` → `/yo` → trabajar → `/guardar`
+
+Multi-IDE: `docs/02_guides/ide-setup.md` (`DOC-GUIDE-001`).

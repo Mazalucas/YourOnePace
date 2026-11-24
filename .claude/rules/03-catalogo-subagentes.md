@@ -1,0 +1,39 @@
+# Catálogo de Subagentes
+
+Cursor inyecta la descripción de cada subagente en la herramienta **Task**. Usá este mapa para elegir rol; al delegar, incluí protocolos DT (`01-protocolos-dt`).
+
+## Mapeo rápido (keyword → subagente)
+
+- backend, api, database, server → **arquitecto**
+- frontend, ui, ux, client → **frontend** o **ui-designer** (Atelier: `/atelier`)
+- deploy, ci/cd → **devops** · test, qa → **qa**
+- planilla, csv, totales → **data-auditor** (`/verificar`, regla `16`)
+- seguridad, vulnerabilidades, pentest, /hack → **hack-audit** (`/hack`, canvas-first)
+- legal, cumplimiento, RGPD, LSSI, COPPA, cookies, privacidad, multa, /auditoria-legal → **auditoria-legal** (`/auditoria-legal`, canvas-first)
+- plan o propuesta ya escrita, validar approach, panel multi-modelo → skill **analisis-propuesta** (`/analisis-propuesta`; sin subagente nuevo)
+- ordenar, capturar conocimiento, volcar archivos, dump → **`/ordenar`** (skill `dt-ordenar`; redacción pesada → **doc**)
+- docs, readme → **doc** · research → **researcher**
+- PRD / SRD / plan MVP → **prd-creator** / **srd-creator** / **development-planner**
+- marketing, SEO, ads → **marketing-strategist** (guías en `.cursor/skills/marketing/*/GUIDE.md`)
+- video, promo, clip, brag, recordly, recordingly, hyperframes, remotion, screen recording, render MP4 → skill **video-routing** (`tools/video/ROUTING.md`); nombrá el carril antes de producir
+- carril Recordly (demo del producto corriendo) → skill **recordly** (`/recordly`), sin subagente nuevo
+- carril Remotion (plantilla React, lote, Lambda, 3D) → **remotion-producer**
+- carril `/brag` → skill **brag** (caché en `output/.cache/brag/`, sin subagente nuevo)
+- operations, monitoring → **operations-maintainer**
+- estructura de un diff, mantenibilidad, spaghetti, archivo que cruza 1000 líneas, code quality review → subagente **thermo-nuclear-code-quality-review** del plugin Cursor `cursor-team-kit` (no es especialista del DT). Solo si lo piden. Si ese subagente no está en la sesión: `install_plugin` con slug `cursor-team-kit` (atajo `/add-plugin cursor-team-kit`). Si cancelan, no afirmar que quedó instalado ni improvisar la auditoría. En otros IDE, decir que este plugin es solo de Cursor.
+
+Lista completa y keywords: [README — Subagentes](README.md#catálogo-de-los-24-especialistas).
+
+## Prompt de delegación (compacto)
+
+1. Contexto de la tarea y formato de salida esperado.
+2. Protocolos DT: ordenar, cuestionar, alternativas, **Contexto consultado**, puntos ciegos.
+3. Si **web**: bloque stack (`08`, `vitals/data/engineering/web-stack.yaml`).
+4. Si **código** (`arquitecto`, `frontend`, `devops`, `qa`, `remotion-producer`): bloque reuse — skill `engineering-reuse`, diff mínimo, sección **Qué reutilicé**.
+5. Si **cifras**: bloque numérico — regla `16`, script ejecutado, etiquetas de procedencia.
+6. Si **seguridad** (`hack-audit`): bloque defensivo — sin exploits/PoCs; secretos redactados; **hallazgo sin traza origen→sink va a Sospechas** (tope MEDIUM); evidencia determinista (`tools/security/scan-repo.sh`) antes del juicio; canvas-first (`17`) e informe gitignoreado.
+7. Si **cumplimiento** (`auditoria-legal`): territorio antes de puntuar; cifras solo del catálogo fechado; lo que vive fuera del repo va a **No verificable**, explicado en castellano; canvas-first (`17`) e informe gitignoreado.
+
+Varios pedidos en un mensaje: cada agente solo su rol; fuera de alcance → `DEFER: <rol>`.
+
+**Vitals:** `vitals/INDEX.md`.

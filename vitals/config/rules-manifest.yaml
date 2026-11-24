@@ -1,0 +1,80 @@
+# Manifiesto de reglas DT — metadata por regla (IDE-agnóstica).
+# Fuente única: el CUERPO vive en vitals/specs/rule-bodies/<stem>.body.md
+# El emisor (scripts/sync-ide) combina esta metadata con el cuerpo para
+# generar el frontmatter correcto en cada IDE. No editar rules a mano.
+version: 1
+updated: "2026-09-28"
+
+rules:
+  - stem: 00-orquestador-core
+    description: "Núcleo del Orquestador - Personalidad del DT y pipeline base"
+    alwaysApply: true
+  - stem: 01-protocolos-dt
+    description: "Protocolos obligatorios del DT - Cuestionar, alternativas, voz corta (Resumen, siguiente paso)"
+    alwaysApply: true
+  - stem: 02-documentacion
+    description: "OBLIGATORIO al crear o editar docs/ — protocolo DOC-META-001, capas, IDs, catálogo sync-catalog"
+    globs: "docs/**"
+    alwaysApply: false
+  - stem: 03-catalogo-subagentes
+    description: "Catálogo de subagentes - Qué existen y cuándo invocarlos"
+    alwaysApply: true
+  - stem: 05-multi-project-git
+    description: "OBLIGATORIO si hay varios git roots o vitals/workspace.yaml — resolver project_id antes de Git o commits"
+    alwaysApply: false
+  - stem: 06-dt-colaboracion
+    description: "Colaboración multiusuario — sesión solo con /yo, identidad obligatoria en conversación"
+    alwaysApply: true
+  - stem: 31-agent-inbox
+    description: "OBLIGATORIO con inbox de agentes, roster kind:agent o dt-agent — contrato, sync, on-behalf del owner"
+    globs: "vitals/work/inbox/**, vitals/config/roster.yaml, scripts/dt-agent*"
+    alwaysApply: false
+  - stem: 07-orden-continuo
+    description: "OBLIGATORIO tras cambios en docs/, reglas, commands, skills o vitals/specs — una pasada dt-doctor y corregir hallazgos"
+    globs: "docs/**, .cursor/**, vitals/**"
+    alwaysApply: false
+  - stem: 08-stack-web-default
+    description: "OBLIGATORIO en desarrollo web, MVP, API o deploy — stack Node + Firebase soft default; bloque stack al delegar"
+    alwaysApply: false
+  - stem: 15-engineering-reuse
+    description: "OBLIGATORIO al escribir o modificar código — discover before create, sección Qué reutilicé"
+    globs: "**/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.py, **/*.go, **/src/**"
+    alwaysApply: false
+  - stem: 17-canvas-first
+    description: "OBLIGATORIO en auditorías, planes grandes o análisis con tablas/charts — entregar en canvas del IDE si existe"
+    alwaysApply: false
+  - stem: 16-numeric-grounding
+    description: "OBLIGATORIO con planillas, CSV, totales o reportes — calcular con script, etiquetas VERIFICADO/DERIVADO"
+    alwaysApply: false
+  - stem: 18-drive-contexto
+    description: "OBLIGATORIO al consultar Google Drive vía MCP — solo carpetas registradas, solo lectura, consulta dirigida"
+    globs: "vitals/config/drive-context.yaml, vitals/config/drive-context.yaml.example, vitals/config/google-apps.yaml, vitals/config/google-apps.yaml.example"
+    alwaysApply: false
+  - stem: 19-gmail-contexto
+    description: "OBLIGATORIO al consultar Gmail vía MCP — política de labels/queries, borradores, nunca enviar"
+    globs: "vitals/config/gmail-context.yaml, vitals/config/gmail-context.yaml.example, vitals/config/google-apps.yaml, vitals/config/google-apps.yaml.example"
+    alwaysApply: false
+  - stem: 21-calendar-contexto
+    description: "OBLIGATORIO al consultar Google Calendar vía MCP — calendarios registrados, confirmar antes de borrar"
+    globs: "vitals/config/calendar-context.yaml, vitals/config/calendar-context.yaml.example, vitals/config/google-apps.yaml, vitals/config/google-apps.yaml.example"
+    alwaysApply: false
+  - stem: 10-arquitectura-backend
+    description: "Convenciones de arquitectura backend, APIs, capas, manejo de errores"
+    globs: "**/backend/**/*, **/api/**/*, **/*.py, **/*.go, **/*.ts, **/server/**/*"
+    alwaysApply: false
+  - stem: 20-frontend-ui
+    description: "Convenciones de frontend, componentes, estado, accesibilidad"
+    globs: "**/*.tsx, **/*.vue, **/*.jsx, **/frontend/**/*, **/components/**/*"
+    alwaysApply: false
+  - stem: 30-testing
+    description: "Convenciones de testing, cobertura mínima, tipos de tests, mocks"
+    globs: "**/*.test.*, **/*.spec.*, **/tests/**/*, **/__tests__/**/*"
+    alwaysApply: false
+  - stem: 40-devops
+    description: "Convenciones DevOps — CI/CD, IaC, deploy Firebase, DRY en pipelines"
+    globs: "**/.github/workflows/**, **/Dockerfile*, **/docker-compose*, **/terraform/**, **/firebase.json, **/cloudbuild*"
+    alwaysApply: false
+  - stem: 90-seguridad-secrets
+    description: "Seguridad y manejo de secrets - nunca hardcodear credenciales"
+    globs: "**/.env*, **/config/**/*, **/*secrets*, **/*credentials*"
+    alwaysApply: false

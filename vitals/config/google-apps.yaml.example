@@ -1,0 +1,10 @@
+# Plantilla — copiar a vitals/config/google-apps.yaml (local, gitignoreado).
+# Lo escribe /drive, /gmail o /calendar tras instalar el MCP oficial y el embudo.
+version: 1
+updated: "2026-09-28T00:00:00Z"
+operator_id: "<slug-del-operador>"
+apps:
+  drive: false
+  gmail: false
+  calendar: false
+registered_at: "2026-09-28T00:00:00Z"

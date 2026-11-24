@@ -1,3 +1,20 @@
+---
+id: DOC-GUIDE-013
+title: Releases and installers
+type: guide
+status: canonical
+owner: your-one-pace
+created: 2026-04-18
+updated: 2026-11-24
+tags:
+  - your-one-pace
+  - releases
+summary: Versionado, tags y cómo publicar instaladores de Your One Pace.
+related: []
+priority: high
+source_of_truth: true
+---
+
 # Releases and installers
 
 ## Versioning

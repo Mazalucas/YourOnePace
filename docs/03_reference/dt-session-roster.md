@@ -1,0 +1,83 @@
+---
+id: DOC-REF-001
+title: Referencia — sesión local y roster
+type: reference
+status: canonical
+owner: dt-platform
+created: 2026-05-27
+updated: 2026-09-23
+tags:
+  - session
+  - roster
+  - roles
+domain:
+  - meta
+summary: Forma de session.yaml (local), roster.yaml (Git), roles opcionales y collaboration.yaml (postura personal|team que escribe /yo).
+related:
+  - DOC-OV-004
+keywords:
+  - session
+  - roster
+  - operator
+priority: high
+intended_audience:
+  - engineers
+  - ai-agents
+source_of_truth: true
+review_cycle_days: 90
+---
+
+# Sesión local y roster
+
+## Principio
+
+La plantilla **no** trae personas ni roles del equipo. `roster.yaml` arranca con `team: []`. Los roles **no** son un enum fijo del framework: cada proyecto puede dejar texto libre o definir su lista en `vitals/config/roles.yaml`.
+
+## `vitals/ops/session.yaml` (local, .gitignore)
+
+Creado solo por **`/yo`**. Ver forma en [vitals/ops/README.md](../../vitals/ops/README.md).
+
+## `vitals/config/roster.yaml` (Git)
+
+```yaml
+version: 1
+updated: "<ISO8601 al modificar>"
+team:
+  - id: <slug>
+    name: "<nombre>"
+    role: "<rol — texto libre o acordado en roles.yaml>"
+    email: "<opcional>"
+    registered_at: "<ISO8601>"
+```
+
+Solo entradas **reales** añadidas cuando un operador nuevo pasa por `/yo`.
+
+### Miembros agente
+
+Una entrada sin `kind` es humana. Un agente persistente lleva `kind: agent` y además `owner` (id humano del roster), `runtime`, `scope` y `status` (`pending` | `active` | `paused` | `retired`). Entra `pending`; solo el owner lo activa. Flujo completo, inbox y límites: [`vitals/specs/agent-inbox.md`](../../vitals/specs/agent-inbox.md) (`DOC-DEC-007`).
+
+## `vitals/config/roles.yaml` (opcional)
+
+```yaml
+version: 1
+roles: []   # vacío = cualquier rol en /yo; si hay strings, dt-session valida o sugiere
+```
+
+El equipo del **proyecto consumidor** rellena `roles` cuando quiera estandarizar (p. ej. `analista`, `lead`, `platform`). El template base deja `roles: []`.
+
+## `vitals/config/collaboration.yaml` (Git)
+
+Lo escribe **`/yo`**. No forma parte de la sesión local. Forma: [collaboration.yaml.example](../../vitals/config/collaboration.yaml.example).
+
+| `posture` | Efecto |
+|-----------|--------|
+| `personal` | Sin preguntas rutinarias de la regla `01`. Compuertas iguales. |
+| `team` | Preguntas de validación antes de actuar. |
+
+Si el archivo no existe, la voz es `team`. `/yo` pregunta solo cuando el roster está vacío y no hay `posture` válida. Un roster que **ya tenía** al menos una persona antes de este `/yo` fija `team` sin preguntar. Comportamiento: [precedence.md](../../vitals/specs/precedence.md).
+
+`/bootstrap` borra este archivo al resetear el template y no hace la entrevista.
+
+## Related docs
+
+- [Memoria del equipo](../00_overview/memoria-equipo-mecanismos-dt.md) (`DOC-OV-004`)

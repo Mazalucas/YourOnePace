@@ -1,3 +1,20 @@
+---
+id: DOC-GUIDE-012
+title: "Your One Pace: Project Overview"
+type: concept
+status: canonical
+owner: your-one-pace
+created: 2026-04-18
+updated: 2026-11-24
+tags:
+  - your-one-pace
+  - overview
+summary: Qué es Your One Pace y qué funciones cubre el tracker.
+related: []
+priority: medium
+source_of_truth: true
+---
+
 # Your One Pace: Project Overview
 
 ## What is this project?

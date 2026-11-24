@@ -1,0 +1,18 @@
+---
+dt_command: actualizar
+group: routine
+group_title: "Rutina del día a día"
+tagline: "Sincronizar tu proyecto y comprobar novedades del framework DT."
+skill: git-actualizar
+---
+
+# /actualizar
+
+**Grupo:** Rutina del día a día
+**En una frase:** Sincronizar tu proyecto y comprobar novedades del framework DT.
+**Cuándo:** Al abrir el editor; antes de /guardar si estás behind.
+**Quién:** Cualquier operador del repo.
+
+Ejecutá el skill **`git-actualizar`** — `.cursor/skills/git-actualizar/` y `.agents/skills/git-actualizar/`.
+
+_Generado desde `vitals/config/commands-meta.yaml` — corré `scripts/sync-commands-from-meta.sh`._

@@ -1,3 +1,20 @@
+---
+id: DOC-GUIDE-014
+title: "Resources: Your One Pace"
+type: reference
+status: canonical
+owner: your-one-pace
+created: 2026-04-18
+updated: 2026-11-24
+tags:
+  - your-one-pace
+  - resources
+summary: Sitio oficial, Discord y fuentes de datos del tracker.
+related: []
+priority: low
+source_of_truth: true
+---
+
 # Resources: Your One Pace
 
 ## Primary Information

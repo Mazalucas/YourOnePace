@@ -1,0 +1,11 @@
+# Equipo en Git — solo entradas reales. No commitear datos de ejemplo.
+# Humanos: los agrega /yo (skill dt-session). Agentes: kind: agent, alta pending + owner humano.
+# Contrato de agentes e inbox: vitals/specs/agent-inbox.md
+version: 1
+updated: "2026-11-24T16:01:40+01:00"
+team:
+  - id: lucas
+    name: "Lucas"
+    role: "Creador de YourOnePace y unico dev"
+    email: "lukytas_95@hotmail.com"
+    registered_at: "2026-11-24T16:01:40+01:00"

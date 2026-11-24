@@ -1,3 +1,20 @@
+---
+id: DOC-GUIDE-010
+title: "User Guide: Your One Pace"
+type: guide
+status: canonical
+owner: your-one-pace
+created: 2026-04-18
+updated: 2026-11-24
+tags:
+  - your-one-pace
+  - user-guide
+summary: Cómo abrir Your One Pace y guardar el progreso en el navegador o en la app.
+related: []
+priority: high
+source_of_truth: true
+---
+
 # User Guide: Your One Pace
 
 ## Getting Started

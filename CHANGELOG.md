@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-24
+
+### Added
+
+- **El DT v1.18.0** in this repo for day-to-day work: rules, skills, and specialists. The tracker itself behaves as in 1.0.27.
+- Product guides (`docs/USER_GUIDE.md` and the other four) now have documentation frontmatter so the framework index can see them.
+
 ## [1.0.27] - 2026-10-05
 
 ### Changed

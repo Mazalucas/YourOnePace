@@ -1,0 +1,98 @@
+---
+name: dt-session
+description: "[Rutina] Crea o actualiza la sesión local con /yo — única forma de cargar identidad. En el mismo /yo resuelve la postura personal|team y solo pregunta si el roster y collaboration.yaml no la contestan. Use when the user invokes /yo or must identify who is working."
+---
+
+# dt-session
+
+La sesión **solo existe** tras **`/yo`**. **No** uses plantillas con placeholders ni participantes de ejemplo del repo.
+
+## Archivos
+
+| Archivo | Git | Acción |
+|---------|-----|--------|
+| `vitals/ops/session.yaml` | No | Crear/actualizar al validar identidad |
+| `vitals/config/roster.yaml` | Sí | Append solo si operador **nuevo** (datos reales del usuario) |
+| `vitals/config/roles.yaml` | Sí | Opcional: si `roles[]` tiene entradas, validar o sugerir; si está vacío, rol = **texto libre** |
+| `vitals/work/inbox/{id}/` | Sí | `mkdir -p` |
+| `vitals/config/collaboration.yaml` | Sí | Escribir `posture` solo cuando se infiere o el usuario la dice |
+
+## Checkout oficial
+
+Si `./scripts/dt-publish-gate.sh` sale **0** o **50**, esta carpeta publica el framework. En ese caso la identidad no viaja:
+
+- Escribí solo `vitals/ops/session.yaml`.
+- La postura va a `vitals/ops/collaboration.local.yaml` (gitignored). No escribas `vitals/config/collaboration.yaml`.
+- No agregues personas a `roster.yaml`. El archivo versionado se publica con `team: []`.
+- No dejes notas en `vitals/work/inbox/` para commitear.
+- No pidas `/guardar` para subir roster, postura ni cuaderno.
+
+Quien clona el DT no tiene que encontrar tu sesión, tu roster ni documentación de esta interacción. Los manuales del framework sí se publican.
+
+## Pasos
+
+1. Corré `./scripts/dt-publish-gate.sh`. Si sale **0** o **50**, seguí **Checkout oficial** y no los pasos que escriben roster, `collaboration.yaml` o inbox en Git.
+2. Si no existe `vitals/ops/session.yaml` → se crea al confirmar identidad.
+3. Si hay `operator.id` + `operator.name` → **"¿Seguís como {name}?"**
+   - Sí → actualizar `identified_at` y seguir con los pasos 7 y 8: si el `id` no está en `team[]` (por ejemplo, después de `/bootstrap`), agregarlo.
+   - No → identificación nueva (paso 4).
+4. Preguntar **quién trabaja hoy**: nombre (y rol si el usuario no lo dijo).
+5. `id` = slug minúsculas sin espacios (derivado del nombre si hace falta, confirmar con el usuario).
+6. **Rol:** leer `vitals/config/roles.yaml`. Si `roles` tiene ítems → ofrecer lista o aceptar si el usuario ya nombró uno válido. Si `roles: []` o no existe → guardar el rol **tal como lo diga el usuario** (sin imponer `contributor`/`maintainer`/etc.).
+7. **Postura, antes de tocar el roster.** En checkout oficial escribila solo en `vitals/ops/collaboration.local.yaml` y saltá el paso 8. Si no: mirar `collaboration.yaml` y `team[]` como están ahora, sin la persona de este turno. Reglas en la sección siguiente. Si falta y no se puede inferir → preguntar y no inventar. Mientras la respuesta no llegó: no escribas `collaboration.yaml` ni agregues a esta persona al roster (si no, el turno siguiente vería un roster con gente e inferiría `team`).
+8. Buscar `id` en `roster.yaml` → `team[]`. Si **nuevo**: append con `name`, `role`, `email` (usar `git config user.email`; obligatorio en la práctica si la persona va a ser owner de agentes: `dt-doctor` lo cruza con el autor del commit que cambia su estado), `registered_at` (ISO 8601) y actualizar `updated` en el archivo. Si **ya está**: no duplicar ni reescribir con datos de ejemplo. Este paso corre cuando la postura ya quedó resuelta. En checkout oficial no se ejecuta.
+9. Escribir `session.yaml` con `operator` (id, name, role, email, inbox_path), `identified_at`, `session_started`.
+9b. `./scripts/dt-oficial.sh install-hook` — deja el `prepare-commit-msg` que estampa `DT-Member: {id}` en **cada** commit de esta carpeta (también si no pasa por `/guardar`). Si existe `canonical-checkout.yaml`, el hook no estampa: el DT oficial se publica sin operador. Si el hook no se pudo instalar, decilo en una línea; la identidad en `session.yaml` igual vale.
+10. `mkdir -p vitals/work/inbox/{id}/` solo fuera del checkout oficial.
+11. `./scripts/dt-agent.sh inbox --team --as {id}`. Si hay un URGENTE, decirlo primero. Después, si hay abiertos, una línea: «Tenés N abiertos; `release-bot` tiene M». Si hay agentes `pending` con `owner: {id}`, sumar: «`bot` pide alta: `dt-agent.sh activate bot`». Si no hay nada, no decir nada.
+12. Confirmar id, nombre, rol, inbox y postura. Sumá una línea: los commits de esta carpeta llevan `DT-Member: {id}` (salvo publicación del DT oficial). Si hubo alta en roster o se escribió `collaboration.yaml`: recordar **`/guardar`** para subirlos. En checkout oficial no hay alta que subir.
+13. **Cerrar con un solo paso siguiente**, con el formato del guion [`welcome-message.md`](../dt-setup/references/welcome-message.md): «Paso X de N», **Qué hacemos:**, **Por qué sirve:** y un único 👉; máximo 16 líneas con texto. Usá el texto del guion para cada caso:
+    - `origin` es el remoto oficial del DT, no hay `dt-upstream` y no hay `/oficial` → preguntá el camino con el texto **M1** del guion y esperá. No adelantes `/bootstrap`.
+    - `origin` es el remoto oficial del DT y `dt-upstream.md` dice `mode: consumer` → camino elegido en M1: **Construir** («Paso 2 de 3: hacerlo tuyo» → `/bootstrap`) o **Conocer** («Paso 2 de 2: probame»). Si no se sabe, Construir. No pidas `/guardar` antes: `/bootstrap` resetea el roster (la postura se conserva).
+    - `dt-upstream.md` dice `mode: canonical` → camino **Mantener**: «Paso 2 de 2: habilitar la publicación» (`/oficial`) si la carpeta no está activada; si ya lo está, **Cierre del camino (Mantener)**.
+    - Recién pasó `/bootstrap` (sin `origin` y `project-version.yaml` con `initialized: false`) → **Cierre común**: «Qué más podés hacer» + ritual diario en una línea.
+    - `origin` es el repo de un equipo y es la primera vez de esta persona → **Cierre común** con «¿qué hay pendiente?».
+    - Otro caso → «Pedime lo que necesites».
+
+## Modo agente
+
+Para un agente autónomo, sin persona en el chat. Contrato: [`vitals/specs/agent-inbox.md`](../../../vitals/specs/agent-inbox.md).
+
+Señal: `DT_AGENT_ID` en el entorno o instrucción explícita de quien lanzó al agente.
+
+1. No preguntar nada. No tocar la postura.
+2. `./scripts/dt-agent.sh login`.
+   - Exit 0 → sesión escrita con `operator.kind: agent`. Seguir.
+   - Exit 2, no registrado → `./scripts/dt-agent.sh register --id … --name … --owner … --runtime … --scope …` y terminar la corrida.
+   - Exit 2, `pending`/`paused`/`retired` → terminar.
+3. `./scripts/dt-agent.sh inbox`. Siguiente paso: sección 5 del contrato.
+
+Un agente nunca cambia su propio `status` ni el de otro miembro. En checkout oficial no hay alta: solo sesión local.
+
+## Postura del proyecto
+
+No vive en `session.yaml`. Archivo Git: `vitals/config/collaboration.yaml` (`posture: personal` | `team`). Plantilla de forma: `vitals/config/collaboration.yaml.example`.
+
+Resolvela en el **mismo** `/yo`, después de saber el nombre. No es un comando aparte. **`/bootstrap` no la pregunta y la conserva**: el template nunca publica `collaboration.yaml` (`private_exact`), así que si existe la escribió el `/yo` de este recorrido.
+
+1. Si el usuario ya dijo `personal` o equipo/`team` en este mensaje → usar eso. No repreguntar.
+2. Si `collaboration.yaml` ya tiene `posture: personal` o `team` → no preguntar. Mencionala al confirmar.
+3. Si no hay postura válida y `team[]` **ya tenía** al menos una persona (`id` no vacío) antes de este `/yo` → escribir `posture: team`. No preguntar: el roster ya confirma equipo. La persona que se está identificando ahora no cuenta para esa señal.
+4. Si el roster está vacío y no hay postura válida → **una** pregunta de seguimiento con el formato del guion ([`welcome-message.md`](../dt-setup/references/welcome-message.md) § Pregunta de postura): «1. Solo mío · 2. De un equipo» y **Por qué sirve:** «en equipo te consulto más antes de actuar». Guardá `personal` o `team`. No inventes el valor.
+
+`personal` apaga las preguntas rutinarias de la regla `01`. `team` las deja. Las compuertas (secretos, publish gate, doctor) no cambian. Sin archivo, fuera de este `/yo`, la voz sigue siendo team.
+
+Podés escribir `session.yaml` cuando la identidad está lista aunque todavía falte la postura. No cierres `/yo` sin haber preguntado la postura si el paso 4 aplica.
+
+```yaml
+version: 1
+posture: personal   # o team
+```
+
+## No hacer
+
+- No commitear `session.yaml`.
+- No escribir en `roster.yaml` nombres/roles de ejemplo del template ni placeholders.
+- No inventar participantes, roles ni `posture`.
+- No preguntar la postura si el roster tiene gente o si `collaboration.yaml` ya es válido.
+- No meter esta entrevista en `/bootstrap`.

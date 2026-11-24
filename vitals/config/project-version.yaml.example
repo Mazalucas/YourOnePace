@@ -1,0 +1,22 @@
+# Copia a vitals/config/project-version.yaml — bootstrap **consumer**.
+# No uses el project-version.yaml canónico del DT (ese sincroniza framework_version).
+# Spec: vitals/specs/project-version.md
+
+version: 1
+initialized: false
+initial_semver: "0.1.0"
+# classify | patch | minor | major | none — ver vitals/specs/project-version.md
+# Bootstrap consumer escribe none + initialized:false; el primer /guardar pasa a classify.
+auto_bump: classify
+tag_releases: true
+
+# Propagar VERSION del **producto**. Nunca incluyas framework_version aquí:
+# esa clave es del DT y el sync consumer la ignora de todos modos.
+sync_paths:
+  - path: README.md
+    type: readme_badge
+  - path: package.json
+    type: json
+    field: version
+
+# Discover automático (script): frontend/package.json, backend/package.json, apps/*/package.json

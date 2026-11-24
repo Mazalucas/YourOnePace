@@ -1,0 +1,215 @@
+# Fuente canónica de commands DT — editar aquí primero, luego reflejar en .cursor/commands y .agents/workflows
+version: 1
+updated: "2026-11-13"
+locale: es
+
+groups:
+  routine:
+    title: "Rutina del día a día"
+    description: "Sincronizar con el equipo, identidad local y subir trabajo."
+  work:
+    title: "Trabajo con el framework"
+    description: "Orquestación, análisis y entrega técnica del repo."
+  framework:
+    title: "Framework DT"
+    description: "Desarrollo y evolución del orquestador (no día a día de producto)."
+  design:
+    title: "Diseño y Atelier"
+    description: "Design intelligence — contexto, selección de sistema, anti-slop, specs UI."
+  video:
+    title: "Video"
+    description: "Elegir carril (Recordly, brag, Hyperframes, Remotion) y producir el video."
+
+commands:
+  actualizar:
+    group: routine
+    tagline: "Sincronizar tu proyecto y comprobar novedades del framework DT."
+    when: "Al abrir el editor; antes de /guardar si estás behind."
+    example: "/actualizar"
+    skill: git-actualizar
+  yo:
+    group: routine
+    tagline: "Decir quién trabaja en esta máquina y, si el repo no lo dice, si es personal o equipo."
+    when: "Después de cada /actualizar; primera vez en el repo. La postura se pregunta solo si el roster está vacío y no hay collaboration.yaml válido."
+    example: '/yo → "Soy Ana García, rol desarrollo"'
+    skill: dt-session
+  guardar:
+    group: routine
+    tagline: "Guardar cambios — bump, commit y push al remoto de este repo. El DT oficial solo con /oficial activo."
+    when: "Al cerrar bloque con cambios. El dígito lo elige la IA; si nombrás patch, minor o major, usa ese."
+    example: "/guardar"
+    skill: git-guardar
+  deploy:
+    group: work
+    tagline: "Desplegar la app — primera vez autocompleta scripts y config del repo."
+    when: "Querés publicar a staging o producción; tras bootstrap genera vitals/config/deploy.yaml."
+    example: "/deploy production"
+    skill: deploy
+  drive:
+    group: routine
+    tagline: "Conectar Drive (plugin oficial) y elegir carpetas como contexto. Solo lectura."
+    when: "Primera vez que querés consultar documentos en Drive con el DT; o para cambiar qué carpetas compartís."
+    example: "/drive"
+    skill: dt-drive
+  gmail:
+    group: routine
+    tagline: "Conectar Gmail (plugin oficial) — etiquetas, hilos y borradores; no envía."
+    when: "Querés que el DT busque mail, responda en un hilo o etiquete. Pregunta si es solo Gmail o las tres apps."
+    example: "/gmail"
+    skill: dt-gmail
+  calendar:
+    group: routine
+    tagline: "Conectar Calendar (plugin oficial) — listar y crear eventos."
+    when: "Querés agenda o crear un evento. Pregunta si es solo Calendar o las tres apps."
+    example: "/calendar"
+    skill: dt-calendar
+  dt-config:
+    group: routine
+    tagline: "Elegir qué reglas van en cada mensaje. El perfil queda en esta PC."
+    when: "Querés más o menos contexto del DT, o ver qué está siempre activo y qué entra solo cuando hace falta."
+    example: "/dt-config  ·  Recomendado  ·  Docs  ·  Web"
+    skill: dt-config
+  ayuda:
+    group: routine
+    tagline: "Decime qué necesitás y te señalo un comando o un especialista."
+    when: "No sabés por dónde seguir, o querés saber qué puede hacer el DT sin leer el manual."
+    example: "/ayuda  ·  /ayuda quiero revisar si la app es segura"
+    skill: dt-ayuda
+  bienvenida:
+    group: routine
+    tagline: "Primera vez: te guío paso a paso para arrancar y crear tu proyecto."
+    when: "Justo después de clonar o abrir el DT por primera vez; la IA también puede mostrarlo sin invocación si no hay sesión local."
+    example: "/bienvenida"
+    skill: dt-setup
+  orquestar:
+    group: work
+    tagline: "Pipeline completo del DT en 8 pasos."
+    when: "Tarea con alcance amplio o varias capas del repo."
+    example: "/orquestar"
+    skill: null
+    command_path: .cursor/commands/orquestar.md
+  fast-lane:
+    group: work
+    tagline: "Ejecutar alcance cerrado con menos preguntas rutinarias."
+    when: "Alcance ya definido; no relaja seguridad."
+    example: "/fast-lane"
+    skill: null
+    command_path: .cursor/commands/fast-lane.md
+  cuestionar:
+    group: work
+    tagline: "Solo análisis y alternativas — sin ejecutar."
+    when: "Querés validar idea antes de tocar código."
+    example: "/cuestionar"
+    skill: null
+    command_path: .cursor/commands/cuestionar.md
+  analisis-propuesta:
+    group: work
+    tagline: "Panel multi-modelo sobre un plan ya escrito — dos rondas, solo diagnóstico."
+    when: "Tenés una propuesta o plan y querés que otros LLM lo evalúen (objetivo, approach, escala, replicabilidad) antes de ejecutar."
+    example: "/analisis-propuesta  ·  pegá el plan en el mismo mensaje"
+    skill: analisis-propuesta
+  contexto:
+    group: work
+    tagline: "Mapa del repo y vista de sistema."
+    when: "Entrás a un repo desconocido o después de un pull grande."
+    example: "/contexto"
+    skill: null
+    command_path: .cursor/commands/contexto.md
+  prepr:
+    group: work
+    tagline: "Preparar cambios como PR."
+    when: "Antes de abrir pull request."
+    example: "/prepr"
+    skill: null
+    command_path: .cursor/commands/prepr.md
+  verificar:
+    group: work
+    tagline: "Verificar números de planillas y reportes con script, sin cálculo mental de la IA."
+    when: "Compartís una planilla/reporte o pedís totales, sumas o reconciliación de cifras."
+    example: "/verificar ventas-junio.csv → totales y checks"
+    skill: data-auditor
+    agent: data-auditor
+  hack:
+    group: work
+    tagline: "Auditoría de seguridad del proyecto — mentalidad de atacante, entrega defensiva (SEV + prioridad)."
+    when: "Querés cazar vulnerabilidades, auth/permisos, API, secrets, superficie de agentes/IA o riesgos de arquitectura en el propio repo."
+    example: "/hack  ·  /hack auth  ·  /hack api  ·  /hack agents  ·  /hack diff"
+    skill: hack-audit
+    agent: hack-audit
+  auditoria-legal:
+    group: work
+    tagline: "Auditoría de cumplimiento legal del producto — territorio, evidencia y lo que el código no cubre."
+    when: "Antes de publicar una app o web: registro, cookies, analítica, emails, suscripciones, contenido de usuarios."
+    example: "/auditoria-legal  ·  /auditoria-legal eu  ·  /auditoria-legal pagos"
+    skill: auditoria-legal
+    agent: auditoria-legal
+  ordenar:
+    group: work
+    tagline: "Capturar archivos, carpetas y dumps del chat — documentar en la capa correcta y dejar manifest recuperable."
+    when: "Volcás mucha data, briefs, notas o paths y querés que el DT clasifique, documente e indexe para reutilizar."
+    example: "/ordenar  ·  /ordenar quick  ·  /ordenar inbox  ·  /ordenar docs onboarding"
+    skill: dt-ordenar
+
+  skills:
+    group: framework
+    tagline: "Dejar las skills iguales en todos los IDE — una sola copia canónica."
+    when: "Creaste o editaste una skill, o un IDE no ve una skill que en otro sí."
+    example: "/skills"
+    skill: dt-skills
+  setup:
+    group: framework
+    tagline: "Verificar o reparar la estructura multi-IDE del DT."
+    when: "Tras un pull grande, drift entre IDEs, o si algo del DT no carga."
+    example: "/setup"
+    skill: dt-setup
+  bootstrap:
+    group: framework
+    tagline: "Usar El DT como base: promover al raíz y soltar el remoto del template."
+    when: "Arrancar un proyecto nuevo a partir del template."
+    example: "/bootstrap"
+    skill: dt-bootstrap
+  oficial:
+    group: framework
+    tagline: "Marcar esta carpeta como el único checkout que puede publicar al remoto oficial del DT."
+    when: "Solo el dueño, en la carpeta del DT de verdad. /oficial off lo apaga."
+    example: "/oficial"
+    who: "El dueño del repo oficial, en el checkout que quiere publicar."
+    skill: dt-oficial
+  actualizar-dt:
+    group: framework
+    tagline: "Incorporar una nueva versión del framework DT desde upstream."
+    when: "Cuando /actualizar avisó una versión más nueva; working tree limpio."
+    example: "/actualizar-dt"
+    skill: dt-actualizar
+  github-save-small:
+    group: framework
+    tagline: "Versionado tipo release — bump, commit, tag, push."
+    when: "Cierre de iteración del template o app consumidora."
+    example: "/github-save-small"
+    skill: github-save-release
+    command_path: .cursor/commands/github-save-small.md
+  atelier:
+    group: design
+    tagline: "Design intelligence Impeccable + DT — craft, audit, anti-slop, 23+ commands."
+    when: "Landing, dashboard, mockup, craft UI, critique, polish, design system."
+    example: "/atelier init  ·  /atelier craft hero  ·  /atelier actualizar"
+    skill: atelier
+  remotion:
+    group: video
+    tagline: "Asset de video en React — plantilla, props, lote, render."
+    when: "El carril de tools/video/ROUTING.md es Remotion: composición que se mantiene, parametriza o renderiza en lote."
+    example: "/remotion promo 30s 9:16  ·  /remotion init mi-video"
+    skill: remotion-producer
+    agent: remotion-producer
+  brag:
+    group: video
+    tagline: "Clip de lanzamiento de 15–25s del proyecto — la skill upstream queda en caché, fuera del git."
+    when: "Compartir lo que acabás de construir: un clip corto, con tono, música y texto para postear."
+    example: "/brag  ·  /brag --tone polished --format vertical"
+    skill: brag
+  recordly:
+    group: video
+    tagline: "Demo del producto corriendo — Recordly graba la pantalla; el binario queda fuera del git."
+    when: "Screen recording, walkthrough o GIF del flujo real. /recordingly es el mismo command."
+    example: "/recordly signup  ·  /recordingly"
+    skill: recordly

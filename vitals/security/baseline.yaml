@@ -1,0 +1,43 @@
+# Registro de riesgo de seguridad — baseline de /hack
+#
+# Sirve para que cada auditoría responda "¿qué es NUEVO?" en vez de repetir lo ya sabido.
+# Versionado a propósito en TU proyecto: describe estado y dueños, no cómo explotar
+# (el detalle vive en vitals/work/audits/, gitignoreado).
+# En la plantilla del DT queda vacío. Lo completa el subagente hack-audit.
+#
+# Estados que usa el informe: NUEVO · PERSISTENTE · RESUELTO · ACEPTADO
+version: 1
+updated: ""
+
+# Última auditoría corrida (la completa hack-audit)
+last_audit:
+  date: ""
+  shared_on: ""
+  report_status: none      # none | draft | accepted | accepted_shared
+  report_note: ""
+  scope: ""                # full | api | frontend | infra | ...
+  verdict: ""
+  counts: { critical: 0, high: 0, medium: 0, low: 0, info: 0 }
+  project: ""
+  git_ref: ""
+  product_version: ""
+
+# Hallazgos abiertos que se arrastran entre auditorías.
+# id: kebab-case estable para poder diffear entre corridas.
+# Forma de cada ítem:
+#   - id: ejemplo-webhook-sin-firma
+#     severity: HIGH        # CRITICAL | HIGH | MEDIUM | LOW | INFO
+#     priority: P0          # P0 | P1 | P2
+#     domain: api           # api | frontend | infra | auth | data | ci
+#     summary: "Una línea, sin detalle de explotación"
+#     first_seen: AAAA-MM-DD
+#     last_seen: AAAA-MM-DD
+#     state: NUEVO          # NUEVO | PERSISTENTE
+#     owner: ""
+open: []
+
+# Riesgos aceptados con dueño y fecha de revisión.
+accepted: []
+
+# Resueltos (historial corto).
+resolved: []

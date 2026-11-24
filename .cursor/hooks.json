@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "\"tools/atelier/generated/scripts/impeccable\" hook-before-edit",
+        "timeout": 5
+      }
+    ]
+  }
+}
