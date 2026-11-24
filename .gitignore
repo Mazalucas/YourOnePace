@@ -13,6 +13,10 @@ node_modules/
 release/
 build/icon.ico
 
+# Samsung TV (Tizen) local build + wizard config
+tv/dist/
+tv/.tv-config
+
 # Environment variables
 .env
 .env.local

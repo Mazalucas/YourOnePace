@@ -1,0 +1,223 @@
+/* One Pace en la tele: pantalla de 1920x1080 vista desde el sillón.
+   Márgenes de seguridad amplios, letra grande y un solo foco muy visible. */
+
+:root {
+  --bg: #0a0a0f;
+  --panel: #161622;
+  --panel-2: #1f1f2e;
+  --text: #f4f4f8;
+  --muted: #a3a3b8;
+  --gold: #ffd23f;
+  --red: #ff4d5a;
+  --green: #3ddc84;
+  --focus: #ffd23f;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; width: 1920px; height: 1080px; overflow: hidden;
+  background: radial-gradient(1200px 700px at 85% -10%, #3a1020 0%, transparent 60%),
+              radial-gradient(900px 600px at -10% 110%, #10204a 0%, transparent 60%), var(--bg);
+  color: var(--text);
+  font-family: "SamsungOne", "Samsung Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: none;
+}
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; text-align: left; outline: none; }
+.hidden { display: none !important; }
+
+#app { position: absolute; inset: 0; padding: 56px 112px 0; }
+
+/* Encabezado */
+.top { display: flex; align-items: baseline; justify-content: space-between; height: 72px; }
+.logo { font-size: 40px; font-weight: 900; letter-spacing: 2px; }
+.logo .l1 { color: var(--muted); } .logo .l2 { color: var(--gold); } .logo .l3 { color: var(--red); }
+.stats { font-size: 30px; color: var(--muted); }
+.stats b { color: var(--text); }
+
+/* Foco: borde dorado grueso, un poco más grande, sombra. Imposible no verlo. */
+.focusable { transition: transform 140ms ease-out, box-shadow 140ms ease-out; }
+.focusable.is-focus {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 6px var(--focus), 0 18px 50px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+/* Inicio: "Seguir viendo" */
+.hero {
+  position: relative; display: block; width: 100%; height: 330px; margin-top: 28px;
+  border-radius: 28px; padding: 56px 64px;
+  background: linear-gradient(120deg, #2a0f1c 0%, #1b1b3a 55%, #10233f 100%);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+}
+.hero.is-focus { transform: scale(1.025); }
+.hero-kicker { display: block; font-size: 30px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+.hero-title { display: block; font-size: 84px; font-weight: 900; line-height: 1.05; margin-top: 18px; }
+.hero-sub { display: block; font-size: 34px; color: var(--muted); margin-top: 18px; }
+.hero-play {
+  position: absolute; right: 72px; top: 50%; transform: translateY(-50%);
+  width: 150px; height: 150px; border-radius: 50%; background: var(--red);
+  display: flex; align-items: center; justify-content: center; font-size: 64px; padding-left: 10px; color: #fff;
+}
+.hero.is-focus .hero-play { background: var(--gold); color: #1a1a1a; }
+
+.row-title { font-size: 36px; font-weight: 800; margin: 48px 0 20px; color: var(--muted); }
+
+/* Carrusel de arcos */
+.carousel { position: relative; height: 330px; margin: 0 -112px; padding: 16px 112px; overflow: hidden; }
+.carousel-track { display: flex; gap: 32px; transition: transform 220ms ease-out; }
+.arc-card {
+  flex: 0 0 320px; height: 280px; border-radius: 22px; padding: 28px;
+  background: var(--panel); border: 2px solid rgba(255, 255, 255, 0.06);
+  display: flex; flex-direction: column; position: relative;
+}
+.arc-card .n { font-size: 26px; color: var(--muted); font-weight: 700; }
+.arc-card .t { font-size: 36px; font-weight: 800; line-height: 1.12; margin-top: 10px; flex: 1; }
+.arc-card .p { font-size: 26px; color: var(--muted); }
+.arc-card .bar { height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 0.12); margin-top: 12px; overflow: hidden; }
+.arc-card .bar i { display: block; height: 100%; background: var(--gold); }
+.arc-card.done { background: #13241c; }
+.arc-card.done .bar i { background: var(--green); }
+.arc-card .check {
+  position: absolute; top: 20px; right: 22px; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--green); color: #0a2015; font-size: 32px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+}
+.arc-card.current { border-color: var(--red); }
+
+/* Pantalla de un arco */
+.arc-head { margin-top: 20px; }
+.arc-no { font-size: 30px; color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.arc-name { font-size: 76px; font-weight: 900; margin: 6px 0 0; line-height: 1.05; }
+.arc-meta { font-size: 32px; color: var(--muted); margin-top: 12px; }
+.arc-desc { font-size: 28px; color: var(--muted); max-width: 1400px; margin: 14px 0 0; line-height: 1.35; }
+.arc-desc:empty { display: none; }
+
+.arc-actions { display: flex; gap: 28px; margin-top: 30px; }
+.action {
+  height: 92px; padding: 0 44px; border-radius: 46px; font-size: 34px; font-weight: 800;
+  background: var(--panel-2); display: flex; align-items: center; gap: 16px;
+}
+.action.primary { background: var(--red); color: #fff; }
+.action.primary.is-focus { background: var(--gold); color: #1a1a1a; }
+
+.episodes-wrap { position: absolute; left: 0; right: 0; bottom: 96px; top: 560px; overflow: hidden; padding: 20px 112px; }
+.episodes-wrap.tall { top: 470px; }
+.episodes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 28px; transition: transform 220ms ease-out; }
+.ep {
+  height: 168px; border-radius: 20px; padding: 22px 26px; background: var(--panel);
+  border: 2px solid rgba(255, 255, 255, 0.06); position: relative;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.ep .num { font-size: 60px; font-weight: 900; line-height: 1; }
+.ep .lbl { font-size: 24px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ep.watched { background: #13241c; }
+.ep.watched .num { color: var(--green); }
+.ep.next { border-color: var(--red); }
+.ep .tag {
+  position: absolute; top: 18px; right: 20px; font-size: 22px; font-weight: 800;
+  padding: 6px 14px; border-radius: 14px; background: var(--red); color: #fff;
+}
+.ep.watched .tag { background: var(--green); color: #0a2015; }
+
+/* Ayuda de abajo */
+.hint {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 88px; padding: 0 112px;
+  display: flex; align-items: center; gap: 48px; font-size: 28px; color: var(--muted);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+}
+.hint .k {
+  display: inline-block; min-width: 50px; padding: 4px 14px; margin-right: 12px; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14); color: var(--text); font-weight: 800; text-align: center;
+}
+
+/* Diálogo */
+.dialog { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.dialog-box { width: 1100px; border-radius: 32px; padding: 64px 72px; background: #1a1a28; border: 2px solid rgba(255, 255, 255, 0.1); }
+.dialog-box h2 { font-size: 56px; margin: 0; font-weight: 900; line-height: 1.1; }
+.dialog-box p { font-size: 32px; color: var(--muted); margin: 20px 0 0; line-height: 1.35; }
+.dialog-box p:empty { display: none; }
+.dialog-buttons { display: flex; gap: 28px; margin-top: 48px; }
+
+/* Aviso */
+.toast {
+  position: fixed; left: 50%; top: 48px; transform: translate(-50%, -24px); opacity: 0;
+  max-width: 1500px; padding: 24px 40px; border-radius: 20px; z-index: 60;
+  background: rgba(22, 22, 34, 0.97); border: 3px solid var(--gold);
+  font-size: 32px; font-weight: 700; transition: opacity 200ms, transform 200ms; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Reproductor a pantalla completa. El video de AVPlay se dibuja DEBAJO de la página:
+   mientras se reproduce, todo lo de arriba tiene que ser transparente. */
+html.playing, html.playing body { background: transparent !important; }
+html.playing #app { visibility: hidden; }
+.player { position: fixed; inset: 0; z-index: 40; background: transparent; }
+.player #av, .player video { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+.player video { background: #000; object-fit: contain; }
+.player .p-top, .player .p-bottom, .player .p-center { opacity: 0; transition: opacity 250ms; }
+.player.ui .p-top, .player.ui .p-bottom { opacity: 1; }
+.player.paused .p-center { opacity: 1; }
+.p-top { position: absolute; left: 0; right: 0; top: 0; padding: 64px 112px 120px; background: linear-gradient(rgba(0,0,0,.8), transparent); }
+.p-kicker { font-size: 28px; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+.p-title { font-size: 56px; font-weight: 900; margin-top: 8px; }
+.p-center {
+  position: absolute; left: 50%; top: 50%; width: 180px; height: 180px; margin: -90px 0 0 -90px; border-radius: 50%;
+  background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; font-size: 64px; letter-spacing: -6px;
+}
+.p-bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 140px 112px 56px; background: linear-gradient(transparent, rgba(0,0,0,.85)); }
+.p-track { position: relative; height: 12px; border-radius: 6px; background: rgba(255,255,255,.25); }
+.p-fill { height: 100%; width: 0; border-radius: 6px; background: var(--red); }
+.p-knob { position: absolute; top: 50%; left: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.p-times { display: flex; justify-content: space-between; margin-top: 18px; font-size: 32px; font-variant-numeric: tabular-nums; }
+#p-seek { color: var(--gold); font-weight: 800; }
+.p-help { font-size: 24px; color: var(--muted); margin-top: 14px; }
+.spinner {
+  position: absolute; left: 50%; top: 50%; width: 110px; height: 110px; margin: -55px 0 0 -55px; display: none;
+  border: 10px solid rgba(255,255,255,.18); border-top-color: var(--gold); border-radius: 50%; animation: spin 900ms linear infinite;
+}
+.player.loading .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.up-next {
+  position: absolute; right: 112px; bottom: 120px; width: 760px; padding: 44px 48px; border-radius: 28px;
+  background: rgba(16,16,26,.94); border: 2px solid rgba(255,255,255,.12);
+}
+.un-kicker { font-size: 28px; color: var(--gold); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.un-title { font-size: 44px; font-weight: 900; margin-top: 10px; line-height: 1.1; }
+.un-buttons { display: flex; gap: 24px; margin-top: 32px; }
+
+/* Botón de idioma y menú */
+.p-actions { display: flex; gap: 24px; margin-top: 22px; }
+.p-lang { height: 72px; padding: 0 34px; font-size: 28px; background: rgba(255,255,255,.14); }
+.p-lang.is-focus { background: #fff; color: #111; }
+.lang-menu {
+  position: absolute; right: 112px; bottom: 150px; width: 760px; padding: 36px 40px; border-radius: 28px;
+  background: rgba(16,16,26,.96); border: 2px solid rgba(255,255,255,.12);
+}
+.lm-title { font-size: 30px; font-weight: 800; color: var(--muted); margin-bottom: 20px; }
+.lm-options { display: flex; flex-direction: column; gap: 16px; }
+.lm-opt { height: 84px; padding: 0 32px; border-radius: 20px; font-size: 32px; font-weight: 700; background: rgba(255,255,255,.08); display: flex; align-items: center; gap: 18px; }
+.lm-opt .tick { width: 36px; color: var(--gold); }
+.lm-opt.off { opacity: .4; }
+.lm-opt .note { font-size: 24px; color: var(--muted); font-weight: 500; margin-left: auto; }
+.lm-opt.is-focus { background: #fff; color: #111; transform: none; }
+.lm-opt.is-focus .note { color: #444; }
+
+/* Siguiente capítulo: botón con la cuenta regresiva que se llena */
+.un-next { position: relative; overflow: hidden; }
+.un-next .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: rgba(255,255,255,.35); }
+.un-next span { position: relative; }
+
+.un-buttons .action { white-space: nowrap; }
+
+/* Subtítulos propios (inglés o español). Con japonés, el inglés viene grabado abajo: el español va arriba. */
+.subs {
+  position: absolute; left: 160px; right: 160px; bottom: 90px; text-align: center; white-space: pre-line;
+  font-size: 54px; font-weight: 700; line-height: 1.25; color: #fff;
+  text-shadow: 0 0 6px #000, 0 0 3px #000, 3px 3px 2px #000, -3px -3px 2px #000, 3px -3px 2px #000, -3px 3px 2px #000;
+  transition: bottom 200ms;
+}
+.subs.top { bottom: auto; top: 70px; }
+.player.ui .subs:not(.top) { bottom: 330px; }
+.player.ui .subs.top { top: 250px; }
+
+.p-lang { white-space: nowrap; }

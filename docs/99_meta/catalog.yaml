@@ -125,6 +125,11 @@ documents:
     path: RESOURCES.md
     type: reference
     tags: [your-one-pace, resources]
+  - id: DOC-GUIDE-015
+    title: "Instalar Your One Pace en Samsung TV"
+    path: TV_INSTALL.md
+    type: guide
+    tags: [your-one-pace, tizen, samsung-tv]
   - id: DOC-GUIDE-016
     title: "Capturar y ordenar conocimiento con /ordenar"
     path: 02_guides/ordenar-captura-conocimiento.md

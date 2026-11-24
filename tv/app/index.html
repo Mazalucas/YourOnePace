@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>One Pace</title>
+  <link rel="stylesheet" href="tv.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="logo"><span class="l1">YOUR</span> <span class="l2">ONE</span> <span class="l3">PACE</span></div>
+      <div id="stats" class="stats"></div>
+    </header>
+
+    <!-- Inicio -->
+    <section id="home" class="screen">
+      <button id="hero" class="hero focusable" type="button">
+        <span class="hero-kicker" id="hero-kicker">Cargando…</span>
+        <span class="hero-title" id="hero-title"></span>
+        <span class="hero-sub" id="hero-sub"></span>
+        <span class="hero-play">▶</span>
+      </button>
+      <h2 class="row-title">Arcos</h2>
+      <div class="carousel"><div id="arcs" class="carousel-track"></div></div>
+    </section>
+
+    <!-- Un arco -->
+    <section id="arc" class="screen hidden">
+      <div class="arc-head">
+        <div class="arc-no" id="arc-no"></div>
+        <h1 class="arc-name" id="arc-name"></h1>
+        <div class="arc-meta" id="arc-meta"></div>
+        <p class="arc-desc" id="arc-desc"></p>
+      </div>
+      <div class="arc-actions" id="arc-actions"></div>
+      <div class="episodes-wrap"><div id="episodes" class="episodes"></div></div>
+    </section>
+
+    <footer class="hint" id="hint"></footer>
+  </div>
+
+  <!-- Cuadro de diálogo -->
+  <div id="dialog" class="dialog hidden">
+    <div class="dialog-box">
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-text"></p>
+      <div id="dialog-buttons" class="dialog-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Reproductor a pantalla completa: el video va en el plano de video de la tele (AVPlay) -->
+  <div id="player" class="player hidden">
+    <object id="av" type="application/avplayer"></object>
+    <video id="html-video" class="hidden"></video>
+    <div class="subs hidden" id="subs"></div>
+    <div class="spinner"></div>
+    <div class="p-top">
+      <div class="p-kicker" id="p-kicker"></div>
+      <div class="p-title" id="p-title"></div>
+    </div>
+    <div class="p-center" id="p-center">❚❚</div>
+    <div class="p-bottom">
+      <div class="p-track"><div class="p-fill" id="p-fill"></div><div class="p-knob" id="p-knob"></div></div>
+      <div class="p-times"><span id="p-cur">0:00</span><span id="p-seek"></span><span id="p-left">0:00</span></div>
+      <div class="p-actions"><button id="p-lang" class="action p-lang" type="button"></button><button id="p-subs" class="action p-lang" type="button"></button></div>
+      <div class="p-help">OK pausa · ◀ ▶ adelantar o atrasar · ▼ audio y subtítulos · Volver salir</div>
+    </div>
+    <div class="lang-menu hidden" id="lang-menu">
+      <div class="lm-title" id="lm-title"></div>
+      <div class="lm-options" id="lm-options"></div>
+    </div>
+    <div class="up-next hidden" id="up-next">
+      <div class="un-kicker">Siguiente capítulo</div>
+      <div class="un-title" id="un-title"></div>
+      <div class="un-buttons" id="un-buttons"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="$WEBAPIS/webapis/webapis.js"></script>
+  <script src="tv.js"></script>
+</body>
+</html>

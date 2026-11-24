@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-24
+
+### Added
+
+- **Samsung TV app** under `tv/` (Tizen), based on Martín’s [onepace-tele](https://github.com/Martattack23/onepace-tele): remote-friendly UI, live `data.js`, AVPlay playback.
+- **`./tv/instalar.sh`** wizard (checks Tizen Studio, remembers IP and certificate profile, installs to the TV).
+- **[`docs/TV_INSTALL.md`](docs/TV_INSTALL.md)** — step-by-step install guide for TDA-friendly setup.
+- **GitHub Pages** publishes the TV UI at `/tv/` for browser preview (no in-browser video playback).
+
+### Changed
+
+- **README** — “On your Samsung TV” section with preview and install links.
+
 ## [1.1.0] - 2026-11-24
 
 ### Added

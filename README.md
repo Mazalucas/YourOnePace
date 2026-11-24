@@ -35,6 +35,15 @@ Head to **[Releases](https://github.com/Mazalucas/YourOnePace/releases)** and pi
 
 **macOS + Electron only:** If you insist on the downloaded app and see **“damaged”**, that is Gatekeeper/quarantine on unsigned builds. The reliable fix is a Terminal command—see [`docs/RELEASES.md`](docs/RELEASES.md). A fully click-only experience for a downloaded `.app` requires **Apple Developer** signing + **notarization** (paid program); we do not ship that by default.
 
+### On your Samsung TV
+
+| Goal | What to do |
+|------|------------|
+| **Preview the TV UI in a browser** (no video playback) | [Open the TV interface](https://mazalucas.github.io/YourOnePace/tv/) — use arrow keys + Enter. |
+| **Install on your Samsung (Tizen)** | Follow **[`docs/TV_INSTALL.md`](docs/TV_INSTALL.md)** step by step (~30 min once, ~1 min to update). Then run `./tv/instalar.sh` from this repo. |
+
+Samsung Smart TV (Tizen 6.5+) only — not LG, Android TV, or Fire TV. TV app credit: Martín ([@Martattack23](https://github.com/Martattack23/onepace-tele)).
+
 ---
 
 ## How to use the app
